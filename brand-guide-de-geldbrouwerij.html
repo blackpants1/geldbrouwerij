@@ -1,0 +1,1727 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>De Geldbrouwerij — Brand Guide</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,300;1,9..40,400&family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;0,9..144,800;0,9..144,900;1,9..144,300;1,9..144,400;1,9..144,500&display=swap" rel="stylesheet">
+<style>
+:root {
+  /* === CORE PALETTE === */
+  --brouwerij-groen: #1B3A2D;
+  --brouwerij-groen-rgb: 27, 58, 45;
+  --koper: #C78C4E;
+  --koper-rgb: 199, 140, 78;
+  --koper-licht: #D4A46E;
+  --koper-donker: #A67339;
+  --creme: #F5F0E8;
+  --creme-rgb: 245, 240, 232;
+  --schuimwit: #FEFCF7;
+  --houtbruin: #3D2B1F;
+  --houtbruin-rgb: 61, 43, 31;
+  --hopgoud: #E8B84B;
+  --rood: #C0392B;
+  --groei-groen: #27AE60;
+  
+  /* === EXTENDED PALETTE === */
+  --groen-90: #0F1F18;
+  --groen-70: #152D22;
+  --groen-50: #1B3A2D;
+  --groen-30: #2D5A47;
+  --groen-20: #4A7D68;
+  --groen-10: #A3C4B6;
+  --groen-5: #D9EAE2;
+  
+  --koper-90: #5C3D1E;
+  --koper-70: #8A5E30;
+  --koper-50: #C78C4E;
+  --koper-30: #D4A46E;
+  --koper-20: #E0BC8E;
+  --koper-10: #EDD5B0;
+  --koper-5: #F6EBDA;
+  
+  --neutraal-100: #1A1714;
+  --neutraal-90: #3D2B1F;
+  --neutraal-70: #6B5545;
+  --neutraal-50: #9A8475;
+  --neutraal-40: #B5A496;
+  --neutraal-30: #CFC3B7;
+  --neutraal-20: #E5DDD4;
+  --neutraal-10: #F0EBE4;
+  --neutraal-5: #F5F0E8;
+  --neutraal-2: #FEFCF7;
+  
+  /* === SEMANTIC COLORS === */
+  --success: #27AE60;
+  --success-bg: #E8F5E9;
+  --warning: #E8B84B;
+  --warning-bg: #FFF8E1;
+  --error: #C0392B;
+  --error-bg: #FDECEA;
+  --info: #2D5A47;
+  --info-bg: #D9EAE2;
+  
+  /* === TYPOGRAPHY === */
+  --font-display: 'Fraunces', Georgia, 'Times New Roman', serif;
+  --font-body: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+  
+  /* === SPACING SCALE (8px base) === */
+  --space-1: 0.25rem;  /* 4px */
+  --space-2: 0.5rem;   /* 8px */
+  --space-3: 0.75rem;  /* 12px */
+  --space-4: 1rem;     /* 16px */
+  --space-5: 1.5rem;   /* 24px */
+  --space-6: 2rem;     /* 32px */
+  --space-7: 2.5rem;   /* 40px */
+  --space-8: 3rem;     /* 48px */
+  --space-9: 4rem;     /* 64px */
+  --space-10: 5rem;    /* 80px */
+  --space-11: 6rem;    /* 96px */
+  --space-12: 8rem;    /* 128px */
+  --space-13: 10rem;   /* 160px */
+  
+  /* === BORDER RADIUS === */
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --radius-xl: 16px;
+  --radius-2xl: 24px;
+  --radius-full: 9999px;
+  
+  /* === SHADOWS === */
+  --shadow-sm: 0 1px 2px rgba(27,58,45,0.06);
+  --shadow-md: 0 4px 12px rgba(27,58,45,0.08);
+  --shadow-lg: 0 8px 30px rgba(27,58,45,0.12);
+  --shadow-xl: 0 16px 50px rgba(27,58,45,0.16);
+  --shadow-koper: 0 4px 20px rgba(199,140,78,0.25);
+  
+  /* === TRANSITIONS === */
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in-out: cubic-bezier(0.76, 0, 0.24, 1);
+  --duration-fast: 150ms;
+  --duration-normal: 300ms;
+  --duration-slow: 500ms;
+}
+
+/* === RESET & BASE === */
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; font-size: 16px; }
+body {
+  font-family: var(--font-body);
+  background: var(--schuimwit);
+  color: var(--houtbruin);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* === NOISE TEXTURE OVERLAY === */
+body::before {
+  content: '';
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 9999;
+}
+
+/* === NAVIGATION === */
+nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  background: rgba(254,252,247,0.9);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-bottom: 1px solid rgba(27,58,45,0.06);
+  transition: transform var(--duration-normal) var(--ease-out);
+}
+nav .nav-inner {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: var(--space-4) var(--space-6);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+nav .nav-brand {
+  font-family: var(--font-display);
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--brouwerij-groen);
+  letter-spacing: -0.02em;
+}
+nav .nav-brand span { color: var(--koper); }
+nav .nav-links {
+  display: flex;
+  gap: var(--space-5);
+  list-style: none;
+}
+nav .nav-links a {
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: var(--neutraal-70);
+  text-decoration: none;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  transition: color var(--duration-fast);
+}
+nav .nav-links a:hover { color: var(--brouwerij-groen); }
+
+/* === SECTIONS === */
+section {
+  padding: var(--space-12) var(--space-6);
+  max-width: 1400px;
+  margin: 0 auto;
+}
+.section-full {
+  max-width: 100%;
+  padding-left: 0;
+  padding-right: 0;
+}
+.section-dark {
+  background: var(--brouwerij-groen);
+  color: var(--creme);
+  max-width: 100%;
+  padding: var(--space-12) var(--space-6);
+}
+.section-dark .section-inner {
+  max-width: 1400px;
+  margin: 0 auto;
+}
+.section-creme {
+  background: var(--creme);
+  max-width: 100%;
+  padding: var(--space-12) var(--space-6);
+}
+.section-creme .section-inner {
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+/* === HERO === */
+.hero {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: var(--space-13) var(--space-6);
+  position: relative;
+  overflow: hidden;
+}
+.hero::before {
+  content: '';
+  position: absolute;
+  top: -30%;
+  right: -20%;
+  width: 60vw;
+  height: 60vw;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(199,140,78,0.06) 0%, transparent 70%);
+  pointer-events: none;
+}
+.hero-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-2) var(--space-4);
+  background: var(--creme);
+  border-radius: var(--radius-full);
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--koper);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin-bottom: var(--space-7);
+  animation: fadeInUp 0.8s var(--ease-out) both;
+}
+.hero-badge::before {
+  content: '';
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--koper);
+}
+.hero h1 {
+  font-family: var(--font-display);
+  font-size: clamp(3rem, 8vw, 7rem);
+  font-weight: 400;
+  color: var(--brouwerij-groen);
+  line-height: 1.05;
+  letter-spacing: -0.03em;
+  margin-bottom: var(--space-5);
+  animation: fadeInUp 0.8s var(--ease-out) 0.1s both;
+}
+.hero h1 em {
+  font-style: italic;
+  color: var(--koper);
+  font-weight: 300;
+}
+.hero .hero-sub {
+  font-family: var(--font-body);
+  font-size: 1.15rem;
+  color: var(--neutraal-50);
+  max-width: 500px;
+  line-height: 1.7;
+  animation: fadeInUp 0.8s var(--ease-out) 0.2s both;
+}
+.hero .hero-version {
+  font-size: 0.75rem;
+  color: var(--neutraal-40);
+  margin-top: var(--space-9);
+  letter-spacing: 0.05em;
+  animation: fadeInUp 0.8s var(--ease-out) 0.3s both;
+}
+
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(30px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* === SECTION HEADERS === */
+.section-label {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--koper);
+  margin-bottom: var(--space-6);
+}
+.section-label::before {
+  content: '';
+  width: 24px;
+  height: 1px;
+  background: var(--koper);
+}
+.section-title {
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 4vw, 3.5rem);
+  font-weight: 400;
+  color: var(--brouwerij-groen);
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+  margin-bottom: var(--space-4);
+}
+.section-dark .section-title { color: var(--creme); }
+.section-desc {
+  font-size: 1.05rem;
+  color: var(--neutraal-50);
+  max-width: 600px;
+  line-height: 1.7;
+  margin-bottom: var(--space-9);
+}
+.section-dark .section-desc { color: var(--groen-10); }
+
+/* === COLOR SWATCHES === */
+.color-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: var(--space-5);
+  margin-bottom: var(--space-9);
+}
+.color-card {
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  background: white;
+  box-shadow: var(--shadow-sm);
+  transition: transform var(--duration-normal) var(--ease-out), box-shadow var(--duration-normal);
+}
+.color-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-lg);
+}
+.color-swatch {
+  height: 140px;
+  display: flex;
+  align-items: flex-end;
+  padding: var(--space-3);
+}
+.color-swatch span {
+  font-size: 0.65rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  padding: var(--space-1) var(--space-2);
+  border-radius: var(--radius-sm);
+  backdrop-filter: blur(4px);
+}
+.color-info {
+  padding: var(--space-4);
+}
+.color-info h4 {
+  font-family: var(--font-display);
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--brouwerij-groen);
+  margin-bottom: var(--space-1);
+}
+.color-info .color-hex {
+  font-size: 0.8rem;
+  color: var(--neutraal-50);
+  font-family: monospace;
+  margin-bottom: var(--space-2);
+}
+.color-info .color-use {
+  font-size: 0.78rem;
+  color: var(--neutraal-40);
+  line-height: 1.5;
+}
+
+/* === TINT STRIP === */
+.tint-strip {
+  display: flex;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  height: 60px;
+  margin-bottom: var(--space-2);
+}
+.tint-strip div {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.6rem;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+}
+.tint-label {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.65rem;
+  color: var(--neutraal-40);
+  margin-bottom: var(--space-8);
+}
+
+/* === TYPOGRAPHY SPECIMENS === */
+.type-specimen {
+  margin-bottom: var(--space-9);
+  padding-bottom: var(--space-9);
+  border-bottom: 1px solid var(--neutraal-20);
+}
+.type-specimen:last-child { border-bottom: none; }
+.type-meta {
+  display: flex;
+  gap: var(--space-6);
+  margin-bottom: var(--space-5);
+  flex-wrap: wrap;
+}
+.type-meta-item {
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--neutraal-40);
+}
+.type-meta-item span {
+  display: block;
+  font-size: 0.85rem;
+  color: var(--houtbruin);
+  text-transform: none;
+  letter-spacing: 0;
+  font-weight: 400;
+  margin-top: var(--space-1);
+}
+.type-display {
+  font-family: var(--font-display);
+  color: var(--brouwerij-groen);
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  margin-bottom: var(--space-4);
+}
+.type-body-display {
+  font-family: var(--font-body);
+  color: var(--houtbruin);
+  margin-bottom: var(--space-4);
+}
+
+/* === TYPE SCALE === */
+.type-scale-row {
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-6);
+  padding: var(--space-4) 0;
+  border-bottom: 1px solid var(--neutraal-10);
+}
+.type-scale-label {
+  min-width: 120px;
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: var(--neutraal-40);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.type-scale-size {
+  min-width: 80px;
+  font-size: 0.75rem;
+  color: var(--neutraal-50);
+  font-family: monospace;
+}
+.type-scale-sample {
+  font-family: var(--font-display);
+  color: var(--brouwerij-groen);
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+}
+
+/* === SPACING VISUAL === */
+.spacing-grid {
+  display: flex;
+  align-items: flex-end;
+  gap: var(--space-4);
+  flex-wrap: wrap;
+  margin-bottom: var(--space-9);
+}
+.spacing-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-2);
+}
+.spacing-bar {
+  background: linear-gradient(to top, var(--koper), var(--koper-licht));
+  border-radius: var(--radius-sm) var(--radius-sm) 0 0;
+  width: 40px;
+}
+.spacing-value {
+  font-size: 0.65rem;
+  font-weight: 600;
+  color: var(--neutraal-50);
+  font-family: monospace;
+}
+.spacing-name {
+  font-size: 0.6rem;
+  color: var(--neutraal-40);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+/* === BUTTONS === */
+.button-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-5);
+  align-items: flex-start;
+  margin-bottom: var(--space-8);
+}
+.button-group {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+.button-group-label {
+  font-size: 0.65rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--neutraal-40);
+  margin-bottom: var(--space-1);
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 0.9rem;
+  text-decoration: none;
+  border: none;
+  cursor: pointer;
+  transition: all var(--duration-normal) var(--ease-out);
+  white-space: nowrap;
+}
+
+.btn-lg { padding: var(--space-4) var(--space-7); border-radius: var(--radius-lg); font-size: 1rem; }
+.btn-md { padding: var(--space-3) var(--space-6); border-radius: var(--radius-md); font-size: 0.9rem; }
+.btn-sm { padding: var(--space-2) var(--space-4); border-radius: var(--radius-md); font-size: 0.8rem; }
+
+.btn-primary {
+  background: var(--brouwerij-groen);
+  color: var(--creme);
+}
+.btn-primary:hover { background: var(--groen-30); transform: translateY(-2px); box-shadow: var(--shadow-lg); }
+
+.btn-secondary {
+  background: var(--koper);
+  color: white;
+}
+.btn-secondary:hover { background: var(--koper-donker); transform: translateY(-2px); box-shadow: var(--shadow-koper); }
+
+.btn-outline {
+  background: transparent;
+  color: var(--brouwerij-groen);
+  border: 2px solid var(--brouwerij-groen);
+}
+.btn-outline:hover { background: var(--brouwerij-groen); color: var(--creme); }
+
+.btn-ghost {
+  background: transparent;
+  color: var(--koper);
+  padding-left: 0;
+  padding-right: 0;
+}
+.btn-ghost::after { content: ' →'; transition: transform var(--duration-fast); display: inline-block; }
+.btn-ghost:hover::after { transform: translateX(4px); }
+.btn-ghost:hover { color: var(--koper-donker); }
+
+.btn-creme {
+  background: var(--creme);
+  color: var(--brouwerij-groen);
+}
+.btn-creme:hover { background: white; transform: translateY(-2px); box-shadow: var(--shadow-md); }
+
+/* === CARD COMPONENTS === */
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: var(--space-5);
+  margin-bottom: var(--space-8);
+}
+.card {
+  background: white;
+  border-radius: var(--radius-xl);
+  padding: var(--space-7);
+  box-shadow: var(--shadow-sm);
+  border: 1px solid var(--neutraal-10);
+  transition: all var(--duration-normal) var(--ease-out);
+}
+.card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-lg);
+  border-color: transparent;
+}
+.card-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: var(--radius-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.3rem;
+  margin-bottom: var(--space-5);
+}
+.card-icon-green { background: var(--groen-5); color: var(--brouwerij-groen); }
+.card-icon-koper { background: var(--koper-5); color: var(--koper); }
+.card-icon-gold { background: var(--warning-bg); color: var(--hopgoud); }
+.card h3 {
+  font-family: var(--font-display);
+  font-size: 1.15rem;
+  font-weight: 600;
+  color: var(--brouwerij-groen);
+  margin-bottom: var(--space-3);
+}
+.card p {
+  font-size: 0.88rem;
+  color: var(--neutraal-50);
+  line-height: 1.65;
+}
+
+/* === DARK CARDS === */
+.card-dark {
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: var(--radius-xl);
+  padding: var(--space-7);
+}
+.card-dark h3 { color: var(--creme); }
+.card-dark p { color: var(--groen-10); }
+
+/* === INPUT COMPONENTS === */
+.input-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: var(--space-5);
+  margin-bottom: var(--space-8);
+}
+.input-group { display: flex; flex-direction: column; gap: var(--space-2); }
+.input-label {
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--houtbruin);
+}
+.input-field {
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  padding: var(--space-3) var(--space-4);
+  border: 2px solid var(--neutraal-20);
+  border-radius: var(--radius-md);
+  background: white;
+  color: var(--houtbruin);
+  transition: border-color var(--duration-fast), box-shadow var(--duration-fast);
+  outline: none;
+}
+.input-field:focus {
+  border-color: var(--koper);
+  box-shadow: 0 0 0 3px rgba(199,140,78,0.15);
+}
+.input-field::placeholder { color: var(--neutraal-30); }
+.input-hint { font-size: 0.72rem; color: var(--neutraal-40); }
+.input-error .input-field { border-color: var(--rood); }
+.input-error .input-hint { color: var(--rood); }
+
+/* === BADGES & TAGS === */
+.badge-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+  margin-bottom: var(--space-8);
+}
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  padding: var(--space-1) var(--space-3);
+  border-radius: var(--radius-full);
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+}
+.badge-green { background: var(--groen-5); color: var(--brouwerij-groen); }
+.badge-koper { background: var(--koper-5); color: var(--koper-donker); }
+.badge-success { background: var(--success-bg); color: var(--success); }
+.badge-warning { background: var(--warning-bg); color: var(--koper-90); }
+.badge-error { background: var(--error-bg); color: var(--error); }
+
+/* === PHOTO DIRECTION === */
+.photo-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-4);
+  margin-bottom: var(--space-8);
+}
+.photo-placeholder {
+  aspect-ratio: 4/5;
+  border-radius: var(--radius-lg);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: var(--space-5);
+  gap: var(--space-3);
+}
+.photo-placeholder .photo-icon { font-size: 2rem; opacity: 0.6; }
+.photo-placeholder h4 {
+  font-family: var(--font-display);
+  font-size: 0.95rem;
+  font-weight: 600;
+}
+.photo-placeholder p {
+  font-size: 0.75rem;
+  line-height: 1.5;
+  opacity: 0.7;
+}
+.photo-do {
+  background: linear-gradient(135deg, var(--groen-5) 0%, var(--koper-5) 100%);
+  border: 2px dashed var(--groen-10);
+  color: var(--brouwerij-groen);
+}
+.photo-dont {
+  background: var(--error-bg);
+  border: 2px dashed #E8A9A3;
+  color: var(--error);
+}
+
+/* === SOCIAL TEMPLATES === */
+.social-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: var(--space-5);
+  margin-bottom: var(--space-8);
+}
+.social-card {
+  border-radius: var(--radius-xl);
+  overflow: hidden;
+}
+.social-preview {
+  aspect-ratio: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: var(--space-6);
+  position: relative;
+}
+.social-preview h4 {
+  font-family: var(--font-display);
+  font-size: 1.3rem;
+  font-weight: 600;
+  line-height: 1.2;
+  margin-bottom: var(--space-2);
+}
+.social-preview p {
+  font-size: 0.8rem;
+  opacity: 0.8;
+}
+.social-label {
+  padding: var(--space-3) var(--space-4);
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--neutraal-50);
+  background: white;
+}
+
+/* === VOICE & TONE === */
+.tone-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-5);
+  margin-bottom: var(--space-8);
+}
+.tone-card {
+  padding: var(--space-6);
+  border-radius: var(--radius-xl);
+  position: relative;
+}
+.tone-do {
+  background: var(--groen-5);
+  border: 1px solid var(--groen-10);
+}
+.tone-dont {
+  background: var(--error-bg);
+  border: 1px solid #E8A9A3;
+}
+.tone-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin-bottom: var(--space-4);
+}
+.tone-do .tone-badge { color: var(--success); }
+.tone-dont .tone-badge { color: var(--error); }
+.tone-card blockquote {
+  font-family: var(--font-display);
+  font-size: 1rem;
+  font-style: italic;
+  line-height: 1.6;
+  color: var(--houtbruin);
+}
+
+/* === ICON SET === */
+.icon-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+  gap: var(--space-4);
+  margin-bottom: var(--space-8);
+}
+.icon-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-5) var(--space-3);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--neutraal-10);
+  transition: all var(--duration-fast);
+}
+.icon-item:hover { border-color: var(--koper); background: var(--koper-5); }
+.icon-item .icon-symbol { font-size: 1.5rem; }
+.icon-item .icon-name { font-size: 0.6rem; color: var(--neutraal-50); letter-spacing: 0.05em; text-transform: uppercase; }
+
+/* === GRID RULES === */
+.grid-demo {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  gap: var(--space-4);
+  margin-bottom: var(--space-5);
+}
+.grid-col {
+  background: rgba(199,140,78,0.1);
+  border: 1px dashed rgba(199,140,78,0.3);
+  border-radius: var(--radius-sm);
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.65rem;
+  color: var(--koper);
+  font-weight: 600;
+}
+
+/* === DO & DON'T === */
+.dodont-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-5);
+  margin-bottom: var(--space-8);
+}
+
+/* === DIVIDER === */
+.divider {
+  width: 100%;
+  height: 1px;
+  background: var(--neutraal-20);
+  margin: var(--space-9) 0;
+}
+.section-dark .divider {
+  background: rgba(255,255,255,0.1);
+}
+
+/* === TABLE === */
+.brand-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: var(--space-8);
+}
+.brand-table th {
+  text-align: left;
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--neutraal-40);
+  padding: var(--space-3) var(--space-4);
+  border-bottom: 2px solid var(--neutraal-20);
+}
+.brand-table td {
+  padding: var(--space-3) var(--space-4);
+  border-bottom: 1px solid var(--neutraal-10);
+  font-size: 0.88rem;
+  color: var(--houtbruin);
+  vertical-align: top;
+}
+.brand-table td:first-child { font-weight: 600; }
+.brand-table tr:last-child td { border-bottom: none; }
+.section-dark .brand-table th { color: var(--groen-10); border-bottom-color: rgba(255,255,255,0.1); }
+.section-dark .brand-table td { color: var(--creme); border-bottom-color: rgba(255,255,255,0.06); }
+
+/* === RESPONSIVE === */
+@media (max-width: 768px) {
+  section { padding: var(--space-9) var(--space-4); }
+  .section-dark, .section-creme { padding: var(--space-9) var(--space-4); }
+  nav .nav-links { display: none; }
+  .color-grid { grid-template-columns: repeat(2, 1fr); }
+  .tone-grid { grid-template-columns: 1fr; }
+  .photo-grid { grid-template-columns: 1fr; }
+  .dodont-grid { grid-template-columns: 1fr; }
+  .type-scale-row { flex-direction: column; gap: var(--space-2); }
+  .grid-demo { grid-template-columns: repeat(4, 1fr); }
+}
+
+/* === SCROLL ANIMATIONS === */
+.reveal {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.6s var(--ease-out), transform 0.6s var(--ease-out);
+}
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+</style>
+</head>
+<body>
+
+<!-- NAVIGATION -->
+<nav>
+  <div class="nav-inner">
+    <div class="nav-brand">De Geld<span>brouwerij</span></div>
+    <ul class="nav-links">
+      <li><a href="#kleuren">Kleuren</a></li>
+      <li><a href="#typografie">Typografie</a></li>
+      <li><a href="#spacing">Spacing</a></li>
+      <li><a href="#componenten">Componenten</a></li>
+      <li><a href="#fotografie">Fotografie</a></li>
+      <li><a href="#social">Social</a></li>
+      <li><a href="#toon">Toon</a></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-badge">Brand Guide</div>
+  <h1>De Geld<em>brouwerij</em></h1>
+  <p class="hero-sub">genieten zonder geldzorgen.</p>
+  <p class="hero-version">Versie 1.0 — April 2026 · Vertrouwelijk document</p>
+</section>
+
+<!-- ============================== -->
+<!-- SECTION: COLORS -->
+<!-- ============================== -->
+<section id="kleuren">
+  <div class="section-label">01 — Kleurenpalet</div>
+  <h2 class="section-title">Onze kleuren</h2>
+  <p class="section-desc">Warm, ambachtelijk en betrouwbaar. Het palet combineert de diepte van het brouwersvak met de zachtheid die financiële rust uitstraalt. Nooit koud, nooit schreeuwerig.</p>
+
+  <h3 style="font-family:var(--font-display);font-size:1.2rem;color:var(--brouwerij-groen);margin-bottom:var(--space-5);">Kernkleuren</h3>
+  <div class="color-grid">
+    <div class="color-card">
+      <div class="color-swatch" style="background:var(--brouwerij-groen);">
+        <span style="color:rgba(255,255,255,0.7);background:rgba(0,0,0,0.2);">PRIMARY</span>
+      </div>
+      <div class="color-info">
+        <h4>Brouwerij Groen</h4>
+        <div class="color-hex">#1B3A2D · rgb(27, 58, 45)</div>
+        <div class="color-use">Hoofdkleur. Headlines, knoppen, logo. De basis van alles.</div>
+      </div>
+    </div>
+    <div class="color-card">
+      <div class="color-swatch" style="background:var(--koper);">
+        <span style="color:rgba(255,255,255,0.8);background:rgba(0,0,0,0.15);">ACCENT</span>
+      </div>
+      <div class="color-info">
+        <h4>Koper</h4>
+        <div class="color-hex">#C78C4E · rgb(199, 140, 78)</div>
+        <div class="color-use">Accenten, CTA's, iconen, tagline. De warmte en het ambacht.</div>
+      </div>
+    </div>
+    <div class="color-card">
+      <div class="color-swatch" style="background:var(--creme);">
+        <span style="color:var(--neutraal-50);background:rgba(255,255,255,0.6);">SURFACE</span>
+      </div>
+      <div class="color-info">
+        <h4>Crème</h4>
+        <div class="color-hex">#F5F0E8 · rgb(245, 240, 232)</div>
+        <div class="color-use">Secundaire achtergrond. Kaarten, secties, contrast.</div>
+      </div>
+    </div>
+    <div class="color-card">
+      <div class="color-swatch" style="background:var(--schuimwit);">
+        <span style="color:var(--neutraal-40);background:rgba(0,0,0,0.03);">BACKGROUND</span>
+      </div>
+      <div class="color-info">
+        <h4>Schuimwit</h4>
+        <div class="color-hex">#FEFCF7 · rgb(254, 252, 247)</div>
+        <div class="color-use">Primaire achtergrond. Body, pagina-basis.</div>
+      </div>
+    </div>
+    <div class="color-card">
+      <div class="color-swatch" style="background:var(--houtbruin);">
+        <span style="color:rgba(255,255,255,0.7);background:rgba(0,0,0,0.2);">TEXT</span>
+      </div>
+      <div class="color-info">
+        <h4>Houtbruin</h4>
+        <div class="color-hex">#3D2B1F · rgb(61, 43, 31)</div>
+        <div class="color-use">Bodytekst, donkere accenten. Warm zwart.</div>
+      </div>
+    </div>
+    <div class="color-card">
+      <div class="color-swatch" style="background:var(--hopgoud);">
+        <span style="color:rgba(255,255,255,0.8);background:rgba(0,0,0,0.1);">HIGHLIGHT</span>
+      </div>
+      <div class="color-info">
+        <h4>Hopgoud</h4>
+        <div class="color-hex">#E8B84B · rgb(232, 184, 75)</div>
+        <div class="color-use">Badges, succes-states, Proost-momenten.</div>
+      </div>
+    </div>
+  </div>
+
+  <h3 style="font-family:var(--font-display);font-size:1.2rem;color:var(--brouwerij-groen);margin-bottom:var(--space-5);">Semantische kleuren</h3>
+  <div class="color-grid">
+    <div class="color-card">
+      <div class="color-swatch" style="background:var(--success);">
+        <span style="color:white;background:rgba(0,0,0,0.15);">SUCCESS</span>
+      </div>
+      <div class="color-info">
+        <h4>Groei Groen</h4>
+        <div class="color-hex">#27AE60</div>
+        <div class="color-use">Positieve resultaten, voortgang, groei in de tool.</div>
+      </div>
+    </div>
+    <div class="color-card">
+      <div class="color-swatch" style="background:var(--warning);">
+        <span style="color:white;background:rgba(0,0,0,0.1);">WARNING</span>
+      </div>
+      <div class="color-info">
+        <h4>Hopgoud</h4>
+        <div class="color-hex">#E8B84B</div>
+        <div class="color-use">Waarschuwingen, aandachtspunten, let-op momenten.</div>
+      </div>
+    </div>
+    <div class="color-card">
+      <div class="color-swatch" style="background:var(--error);">
+        <span style="color:white;background:rgba(0,0,0,0.15);">ERROR</span>
+      </div>
+      <div class="color-info">
+        <h4>Alarmerend Rood</h4>
+        <div class="color-hex">#C0392B</div>
+        <div class="color-use">Fouten, negatieve resultaten, urgente meldingen.</div>
+      </div>
+    </div>
+  </div>
+
+  <h3 style="font-family:var(--font-display);font-size:1.2rem;color:var(--brouwerij-groen);margin-bottom:var(--space-5);">Groentinten</h3>
+  <div class="tint-strip">
+    <div style="background:var(--groen-90);color:rgba(255,255,255,0.6);">90</div>
+    <div style="background:var(--groen-70);color:rgba(255,255,255,0.6);">70</div>
+    <div style="background:var(--groen-50);color:rgba(255,255,255,0.7);">50</div>
+    <div style="background:var(--groen-30);color:rgba(255,255,255,0.7);">30</div>
+    <div style="background:var(--groen-20);color:white;">20</div>
+    <div style="background:var(--groen-10);color:var(--brouwerij-groen);">10</div>
+    <div style="background:var(--groen-5);color:var(--brouwerij-groen);">5</div>
+  </div>
+  <div class="tint-label"><span>Donker — voor tekst op licht</span><span>Licht — voor achtergronden</span></div>
+
+  <h3 style="font-family:var(--font-display);font-size:1.2rem;color:var(--brouwerij-groen);margin-bottom:var(--space-5);">Kopertinten</h3>
+  <div class="tint-strip">
+    <div style="background:var(--koper-90);color:rgba(255,255,255,0.6);">90</div>
+    <div style="background:var(--koper-70);color:rgba(255,255,255,0.7);">70</div>
+    <div style="background:var(--koper-50);color:white;">50</div>
+    <div style="background:var(--koper-30);color:white;">30</div>
+    <div style="background:var(--koper-20);color:var(--koper-90);">20</div>
+    <div style="background:var(--koper-10);color:var(--koper-90);">10</div>
+    <div style="background:var(--koper-5);color:var(--koper-90);">5</div>
+  </div>
+  <div class="tint-label"><span>Donker — voor hover states</span><span>Licht — voor achtergronden</span></div>
+
+  <h3 style="font-family:var(--font-display);font-size:1.2rem;color:var(--brouwerij-groen);margin-bottom:var(--space-5);">Neutraaltinten</h3>
+  <div class="tint-strip">
+    <div style="background:var(--neutraal-100);color:rgba(255,255,255,0.5);">100</div>
+    <div style="background:var(--neutraal-90);color:rgba(255,255,255,0.6);">90</div>
+    <div style="background:var(--neutraal-70);color:white;">70</div>
+    <div style="background:var(--neutraal-50);color:white;">50</div>
+    <div style="background:var(--neutraal-40);color:white;">40</div>
+    <div style="background:var(--neutraal-30);color:var(--houtbruin);">30</div>
+    <div style="background:var(--neutraal-20);color:var(--houtbruin);">20</div>
+    <div style="background:var(--neutraal-10);color:var(--houtbruin);">10</div>
+    <div style="background:var(--neutraal-5);color:var(--houtbruin);">5</div>
+    <div style="background:var(--neutraal-2);color:var(--houtbruin);">2</div>
+  </div>
+  <div class="tint-label"><span>Donker — bodytekst, subtekst</span><span>Licht — achtergronden, borders</span></div>
+</section>
+
+<!-- ============================== -->
+<!-- SECTION: TYPOGRAPHY -->
+<!-- ============================== -->
+<div class="section-creme" id="typografie">
+  <div class="section-inner">
+    <div class="section-label">02 — Typografie</div>
+    <h2 class="section-title">Lettertypen</h2>
+    <p class="section-desc">Twee fonts. Eén voor karakter, één voor leesbaarheid. Samen vormen ze het gezicht van De Geldbrouwerij: ambachtelijk en premium voor koppen, helder en modern voor alles eromheen.</p>
+
+    <div class="type-specimen">
+      <div class="type-meta">
+        <div class="type-meta-item">Font<span>Fraunces</span></div>
+        <div class="type-meta-item">Gebruik<span>Headlines, titels, quotes, merknaam</span></div>
+        <div class="type-meta-item">Gewichten<span>300 Light · 400 Regular · 600 Semi · 700 Bold</span></div>
+        <div class="type-meta-item">Bron<span>Google Fonts (gratis)</span></div>
+      </div>
+      <div class="type-display" style="font-size:clamp(2.5rem,5vw,4.5rem);font-weight:400;">
+        Genieten zonder geldzorgen.
+      </div>
+      <div class="type-display" style="font-size:clamp(2rem,4vw,3.5rem);font-weight:300;font-style:italic;color:var(--koper);">
+        Brouw aan een rijker leven.
+      </div>
+      <p style="color:var(--neutraal-50);font-size:0.88rem;line-height:1.6;max-width:600px;">Fraunces is een old-style serif met een eigenzinnig karakter. Het voelt ambachtelijk zonder ouderwets te zijn, premium zonder koud te zijn. De italic variant heeft prachtige soft-serif vormen die perfect passen bij de brouwerij-metafoor.</p>
+    </div>
+
+    <div class="type-specimen">
+      <div class="type-meta">
+        <div class="type-meta-item">Font<span>DM Sans</span></div>
+        <div class="type-meta-item">Gebruik<span>Body, knoppen, labels, navigatie, UI</span></div>
+        <div class="type-meta-item">Gewichten<span>300 Light · 400 Regular · 500 Medium · 600 Semi · 700 Bold</span></div>
+        <div class="type-meta-item">Bron<span>Google Fonts (gratis)</span></div>
+      </div>
+      <div class="type-body-display" style="font-size:1.5rem;font-weight:400;line-height:1.6;max-width:700px;margin-bottom:var(--space-5);">
+        We helpen je snappen waar je geld naartoe gaat. En dan regelen we samen dat het gaat waar jij wilt. Eén keer goed instellen, nooit meer zorgen.
+      </div>
+      <div style="display:flex;gap:var(--space-6);flex-wrap:wrap;">
+        <div>
+          <div style="font-weight:300;font-size:1.1rem;color:var(--neutraal-50);margin-bottom:var(--space-1);">Light 300</div>
+          <div style="font-weight:400;font-size:1.1rem;margin-bottom:var(--space-1);">Regular 400</div>
+          <div style="font-weight:500;font-size:1.1rem;margin-bottom:var(--space-1);">Medium 500</div>
+          <div style="font-weight:600;font-size:1.1rem;margin-bottom:var(--space-1);">SemiBold 600</div>
+          <div style="font-weight:700;font-size:1.1rem;">Bold 700</div>
+        </div>
+      </div>
+    </div>
+
+    <h3 style="font-family:var(--font-display);font-size:1.2rem;color:var(--brouwerij-groen);margin-bottom:var(--space-5);">Type schaal</h3>
+    
+    <div class="type-scale-row">
+      <div class="type-scale-label">Display</div>
+      <div class="type-scale-size">4.5rem / 72px</div>
+      <div class="type-scale-sample" style="font-size:3rem;font-weight:400;">Financiële rust</div>
+    </div>
+    <div class="type-scale-row">
+      <div class="type-scale-label">H1</div>
+      <div class="type-scale-size">3rem / 48px</div>
+      <div class="type-scale-sample" style="font-size:2.2rem;font-weight:400;">Brouw aan je vrijheid</div>
+    </div>
+    <div class="type-scale-row">
+      <div class="type-scale-label">H2</div>
+      <div class="type-scale-size">2.25rem / 36px</div>
+      <div class="type-scale-sample" style="font-size:1.7rem;font-weight:400;">Het Brouwproces™</div>
+    </div>
+    <div class="type-scale-row">
+      <div class="type-scale-label">H3</div>
+      <div class="type-scale-size">1.5rem / 24px</div>
+      <div class="type-scale-sample" style="font-size:1.3rem;font-weight:600;">De Brouwavond</div>
+    </div>
+    <div class="type-scale-row">
+      <div class="type-scale-label">H4</div>
+      <div class="type-scale-size">1.15rem / 18px</div>
+      <div class="type-scale-sample" style="font-size:1.1rem;font-weight:600;">Jouw Recept</div>
+    </div>
+    <div class="type-scale-row">
+      <div class="type-scale-label">Body</div>
+      <div class="type-scale-size">1rem / 16px</div>
+      <div class="type-scale-sample" style="font-family:var(--font-body);font-size:1rem;color:var(--houtbruin);letter-spacing:0;">We helpen je grip krijgen op je geld.</div>
+    </div>
+    <div class="type-scale-row">
+      <div class="type-scale-label">Small</div>
+      <div class="type-scale-size">0.875rem / 14px</div>
+      <div class="type-scale-sample" style="font-family:var(--font-body);font-size:0.875rem;color:var(--neutraal-50);letter-spacing:0;">Inclusief toegang tot de Brouwketel-tool.</div>
+    </div>
+    <div class="type-scale-row">
+      <div class="type-scale-label">Caption</div>
+      <div class="type-scale-size">0.75rem / 12px</div>
+      <div class="type-scale-sample" style="font-family:var(--font-body);font-size:0.75rem;color:var(--neutraal-40);letter-spacing:0;">Opzeggen kan altijd. Geen kleine lettertjes.</div>
+    </div>
+    <div class="type-scale-row" style="border-bottom:none;">
+      <div class="type-scale-label">Label</div>
+      <div class="type-scale-size">0.7rem / 11px</div>
+      <div class="type-scale-sample" style="font-family:var(--font-body);font-size:0.7rem;color:var(--koper);letter-spacing:0.1em;text-transform:uppercase;font-weight:600;">Meest gekozen</div>
+    </div>
+  </div>
+</div>
+
+<!-- ============================== -->
+<!-- SECTION: SPACING -->
+<!-- ============================== -->
+<section id="spacing">
+  <div class="section-label">03 — Spacing & Layout</div>
+  <h2 class="section-title">Ruimte & ritme</h2>
+  <p class="section-desc">Gebaseerd op een 8px grid. Genereuze witruimte communiceert premium en rust — precies wat we verkopen. Liever te veel lucht dan te weinig.</p>
+
+  <div class="spacing-grid">
+    <div class="spacing-item"><div class="spacing-bar" style="height:4px;"></div><div class="spacing-value">4</div><div class="spacing-name">sp-1</div></div>
+    <div class="spacing-item"><div class="spacing-bar" style="height:8px;"></div><div class="spacing-value">8</div><div class="spacing-name">sp-2</div></div>
+    <div class="spacing-item"><div class="spacing-bar" style="height:12px;"></div><div class="spacing-value">12</div><div class="spacing-name">sp-3</div></div>
+    <div class="spacing-item"><div class="spacing-bar" style="height:16px;"></div><div class="spacing-value">16</div><div class="spacing-name">sp-4</div></div>
+    <div class="spacing-item"><div class="spacing-bar" style="height:24px;"></div><div class="spacing-value">24</div><div class="spacing-name">sp-5</div></div>
+    <div class="spacing-item"><div class="spacing-bar" style="height:32px;"></div><div class="spacing-value">32</div><div class="spacing-name">sp-6</div></div>
+    <div class="spacing-item"><div class="spacing-bar" style="height:40px;"></div><div class="spacing-value">40</div><div class="spacing-name">sp-7</div></div>
+    <div class="spacing-item"><div class="spacing-bar" style="height:48px;"></div><div class="spacing-value">48</div><div class="spacing-name">sp-8</div></div>
+    <div class="spacing-item"><div class="spacing-bar" style="height:64px;"></div><div class="spacing-value">64</div><div class="spacing-name">sp-9</div></div>
+    <div class="spacing-item"><div class="spacing-bar" style="height:80px;"></div><div class="spacing-value">80</div><div class="spacing-name">sp-10</div></div>
+    <div class="spacing-item"><div class="spacing-bar" style="height:96px;"></div><div class="spacing-value">96</div><div class="spacing-name">sp-11</div></div>
+    <div class="spacing-item"><div class="spacing-bar" style="height:128px;"></div><div class="spacing-value">128</div><div class="spacing-name">sp-12</div></div>
+  </div>
+
+  <h3 style="font-family:var(--font-display);font-size:1.2rem;color:var(--brouwerij-groen);margin-bottom:var(--space-5);">12-koloms grid</h3>
+  <div class="grid-demo">
+    <div class="grid-col">1</div><div class="grid-col">2</div><div class="grid-col">3</div><div class="grid-col">4</div>
+    <div class="grid-col">5</div><div class="grid-col">6</div><div class="grid-col">7</div><div class="grid-col">8</div>
+    <div class="grid-col">9</div><div class="grid-col">10</div><div class="grid-col">11</div><div class="grid-col">12</div>
+  </div>
+
+  <table class="brand-table">
+    <thead><tr><th>Eigenschap</th><th>Waarde</th><th>Gebruik</th></tr></thead>
+    <tbody>
+      <tr><td>Max breedte</td><td>1400px</td><td>Content container</td></tr>
+      <tr><td>Grid kolommen</td><td>12</td><td>Layout basis</td></tr>
+      <tr><td>Grid gap</td><td>24px (sp-5)</td><td>Standaard kolom-afstand</td></tr>
+      <tr><td>Pagina padding</td><td>24px mobiel · 48px desktop</td><td>Links/rechts marge</td></tr>
+      <tr><td>Sectie spacing</td><td>96-128px (sp-11 tot sp-12)</td><td>Tussen secties</td></tr>
+      <tr><td>Kaart padding</td><td>32-40px (sp-6 tot sp-7)</td><td>Interne kaart-ruimte</td></tr>
+      <tr><td>Border radius</td><td>sm: 4px · md: 8px · lg: 12px · xl: 16px · 2xl: 24px</td><td>Afgeronde hoeken</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- ============================== -->
+<!-- SECTION: COMPONENTS -->
+<!-- ============================== -->
+<div class="section-creme" id="componenten">
+  <div class="section-inner">
+    <div class="section-label">04 — Componenten</div>
+    <h2 class="section-title">UI Bouwstenen</h2>
+    <p class="section-desc">Alle componenten volgen dezelfde principes: warm, helder, en met genereuze ruimte. Elk element moet voelen alsof het thuishoort in De Geldbrouwerij.</p>
+
+    <h3 style="font-family:var(--font-display);font-size:1.2rem;color:var(--brouwerij-groen);margin-bottom:var(--space-5);">Knoppen</h3>
+    <div class="button-grid">
+      <div class="button-group">
+        <div class="button-group-label">Primary</div>
+        <button class="btn btn-primary btn-lg">Start de Brouwketel</button>
+        <button class="btn btn-primary btn-md">Plan een Proeverij</button>
+        <button class="btn btn-primary btn-sm">Meer lezen</button>
+      </div>
+      <div class="button-group">
+        <div class="button-group-label">Secondary</div>
+        <button class="btn btn-secondary btn-lg">Probeer 30 dagen — €1</button>
+        <button class="btn btn-secondary btn-md">Reserveer je plek</button>
+        <button class="btn btn-secondary btn-sm">Aanmelden</button>
+      </div>
+      <div class="button-group">
+        <div class="button-group-label">Outline</div>
+        <button class="btn btn-outline btn-lg">Bekijk het Brouwplatform</button>
+        <button class="btn btn-outline btn-md">Meer informatie</button>
+        <button class="btn btn-outline btn-sm">Details</button>
+      </div>
+      <div class="button-group">
+        <div class="button-group-label">Ghost</div>
+        <button class="btn btn-ghost btn-md">Vers van de Tap</button>
+        <button class="btn btn-ghost btn-sm">Lees verder</button>
+      </div>
+    </div>
+
+    <h3 style="font-family:var(--font-display);font-size:1.2rem;color:var(--brouwerij-groen);margin-bottom:var(--space-5);">Badges & tags</h3>
+    <div class="badge-row">
+      <span class="badge badge-green">✦ Meest gekozen</span>
+      <span class="badge badge-koper">☗ Het Brouwproces™</span>
+      <span class="badge badge-success">✓ Proost-moment!</span>
+      <span class="badge badge-warning">⚡ Beperkte plekken</span>
+      <span class="badge badge-error">✕ Tekort</span>
+      <span class="badge badge-green">Gratis</span>
+      <span class="badge badge-koper">Nieuw</span>
+    </div>
+
+    <h3 style="font-family:var(--font-display);font-size:1.2rem;color:var(--brouwerij-groen);margin-bottom:var(--space-5);">Kaarten</h3>
+    <div class="card-grid">
+      <div class="card">
+        <div class="card-icon card-icon-koper">🫕</div>
+        <h3>De Brouwketel</h3>
+        <p>Je financiële röntgenfoto in 5 minuten. Gratis, anoniem, en eerlijker dan je bankapp.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon card-icon-green">🍻</div>
+        <h3>De Brouwavond</h3>
+        <p>Met 8-12 mensen werken we in 2 uur aan de basis. Je gaat naar huis met een concreet plan.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon card-icon-gold">🏭</div>
+        <h3>Het Brouwtraject</h3>
+        <p>3 maanden samen brouwen aan jouw plan. Maandelijks gesprek, tussendoor bereikbaar.</p>
+      </div>
+    </div>
+
+    <h3 style="font-family:var(--font-display);font-size:1.2rem;color:var(--brouwerij-groen);margin-bottom:var(--space-5);">Formuliervelden</h3>
+    <div class="input-grid">
+      <div class="input-group">
+        <label class="input-label">Netto maandinkomen</label>
+        <input type="text" class="input-field" placeholder="bijv. €3.500" />
+        <span class="input-hint">Het bedrag dat je maandelijks op je rekening ontvangt.</span>
+      </div>
+      <div class="input-group">
+        <label class="input-label">E-mailadres</label>
+        <input type="email" class="input-field" placeholder="je@email.nl" style="border-color:var(--koper);box-shadow:0 0 0 3px rgba(199,140,78,0.15);" />
+        <span class="input-hint">Focus state — met koper accent.</span>
+      </div>
+      <div class="input-group input-error">
+        <label class="input-label">Maandelijkse vaste lasten</label>
+        <input type="text" class="input-field" value="abc" />
+        <span class="input-hint">Vul een geldig bedrag in.</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============================== -->
+<!-- SECTION: DARK COMPONENTS -->
+<!-- ============================== -->
+<div class="section-dark">
+  <div class="section-inner">
+    <div class="section-label" style="color:var(--koper-licht);">04b — Donkere variant</div>
+    <h2 class="section-title">Componenten op donker</h2>
+    <p class="section-desc">Voor hero-secties, feature-blokken en premium-uitstraling. Het donkergroen als achtergrond met crème en koper als contrast.</p>
+
+    <div class="card-grid">
+      <div class="card-dark">
+        <h3>Stap 1 — De Proeverij</h3>
+        <p>Proef waar je staat. Eerlijk, zonder oordeel. Waar gaat je geld naartoe? Wat is bitter, wat smaakt goed?</p>
+      </div>
+      <div class="card-dark">
+        <h3>Stap 2 — Het Recept</h3>
+        <p>Stel je potjessysteem in. Beslis vooraf waar je geld naartoe gaat. Vaste lasten, leven, brouwen.</p>
+      </div>
+      <div class="card-dark">
+        <h3>Stap 3 — Automatisering</h3>
+        <p>Stel het in en vergeet het. Je systeem draait. Jij hoeft er niet meer over na te denken.</p>
+      </div>
+    </div>
+
+    <div style="margin-top:var(--space-6);display:flex;gap:var(--space-4);flex-wrap:wrap;">
+      <button class="btn btn-creme btn-lg">Start de Brouwketel</button>
+      <button class="btn btn-secondary btn-lg">Probeer 30 dagen — €1</button>
+      <button class="btn btn-ghost btn-md" style="color:var(--koper-licht);">Meer ontdekken</button>
+    </div>
+  </div>
+</div>
+
+<!-- ============================== -->
+<!-- SECTION: PHOTOGRAPHY -->
+<!-- ============================== -->
+<section id="fotografie">
+  <div class="section-label">05 — Fotografie & Beeldtaal</div>
+  <h2 class="section-title">Visuele wereld</h2>
+  <p class="section-desc">De beeldtaal van De Geldbrouwerij is warm, menselijk en gender-neutraal. Denk ambachtelijke keuken, niet bruin café. Denk Rituals, niet Grolsch. Elke foto moet rust uitstralen.</p>
+
+  <h3 style="font-family:var(--font-display);font-size:1.2rem;color:var(--brouwerij-groen);margin-bottom:var(--space-5);">Fotostijl</h3>
+  <div class="photo-grid">
+    <div class="photo-placeholder photo-do">
+      <div class="photo-icon">☕</div>
+      <h4>Warme momenten</h4>
+      <p>Keukentafels, kopjes koffie, handen die schrijven. Natuurlijk licht, zachte tonen.</p>
+    </div>
+    <div class="photo-placeholder photo-do">
+      <div class="photo-icon">👨‍👩‍👧</div>
+      <h4>Echte mensen</h4>
+      <p>Diverse gezinnen, koppels, individuen. Min. 50% vrouwen. Alle leeftijden 25-50. Geen modellen.</p>
+    </div>
+    <div class="photo-placeholder photo-do">
+      <div class="photo-icon">🫕</div>
+      <h4>Ambachtelijke texturen</h4>
+      <p>Hout, koper, linnen, keramiek. Ingrediënten op een tafel. Craft, geen corporate.</p>
+    </div>
+  </div>
+  <div class="photo-grid">
+    <div class="photo-placeholder photo-dont">
+      <div class="photo-icon">🍺</div>
+      <h4>Geen bier-imagery</h4>
+      <p>Geen bierglazen, geen schuimkragen, geen kroegen, geen mannelijke bier-clichés.</p>
+    </div>
+    <div class="photo-placeholder photo-dont">
+      <div class="photo-icon">💼</div>
+      <h4>Geen corporate</h4>
+      <p>Geen pakken, geen kantoren, geen handdrukken, geen stockfoto-glimlachen.</p>
+    </div>
+    <div class="photo-placeholder photo-dont">
+      <div class="photo-icon">📈</div>
+      <h4>Geen finance clichés</h4>
+      <p>Geen grafieken, geen geld-regen, geen gouden munten, geen lamborghini's.</p>
+    </div>
+  </div>
+
+  <h3 style="font-family:var(--font-display);font-size:1.2rem;color:var(--brouwerij-groen);margin:var(--space-8) 0 var(--space-5);">AI-fotografie prompts</h3>
+  <table class="brand-table">
+    <thead><tr><th>Gebruik</th><th>Prompt richting</th></tr></thead>
+    <tbody>
+      <tr><td>Hero website</td><td>"A warm, softly lit kitchen table with a copper kettle, linen napkin, and a notebook. Morning light through a window. Cream and green tones. Lifestyle photography, shallow depth of field. No people."</td></tr>
+      <tr><td>Over mij</td><td>"A friendly Dutch man in his 30s, casual clothing, sitting at a wooden table with a coffee cup. Warm natural light. Approachable, genuine smile. Not posed. Background: cozy living room with plants."</td></tr>
+      <tr><td>Brouwavond</td><td>"Overhead view of a wooden table with notebooks, pens, a laptop, and two cups of tea. Warm tones, cozy atmosphere. Study group feeling. Cream and copper color palette."</td></tr>
+      <tr><td>Gezinseditie</td><td>"A mother and child (8 years old) sitting together at a kitchen table, looking at a piggy bank and some coins. Warm light, natural, candid moment. Soft cream background."</td></tr>
+      <tr><td>Textuur/achtergrond</td><td>"Close-up of linen fabric texture in cream/off-white color. Soft, natural, minimal. For use as website background overlay."</td></tr>
+      <tr><td>Social media</td><td>"Flat lay on wooden surface: a copper bowl, some hop leaves, a small notebook, and a pen. Overhead shot, natural light, warm tones. Minimal, clean composition."</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- ============================== -->
+<!-- SECTION: SOCIAL MEDIA -->
+<!-- ============================== -->
+<div class="section-creme" id="social">
+  <div class="section-inner">
+    <div class="section-label">06 — Social Media</div>
+    <h2 class="section-title">Social templates</h2>
+    <p class="section-desc">Vier vaste templates voor Instagram, TikTok en LinkedIn. Consistentie bouwt herkenbaarheid. Wissel af tussen de varianten maar blijf altijd binnen het systeem.</p>
+
+    <div class="social-grid">
+      <div class="social-card">
+        <div class="social-preview" style="background:var(--brouwerij-groen);color:var(--creme);">
+          <h4>48% heeft niks<br>voor pensioen<br>geregeld.</h4>
+          <p style="color:var(--koper-licht);">@degeldbrouwerij</p>
+        </div>
+        <div class="social-label">Template A — Groen + statement</div>
+      </div>
+      <div class="social-card">
+        <div class="social-preview" style="background:var(--creme);color:var(--brouwerij-groen);">
+          <h4>Het potjes-<br>systeem in<br>60 seconden.</h4>
+          <p style="color:var(--koper);">@degeldbrouwerij</p>
+        </div>
+        <div class="social-label">Template B — Crème + educatief</div>
+      </div>
+      <div class="social-card">
+        <div class="social-preview" style="background:linear-gradient(135deg,var(--koper) 0%,var(--koper-donker) 100%);color:white;">
+          <h4>Proost-<br>moment! 🍻<br>€1.000 in<br>het Vat.</h4>
+          <p style="color:rgba(255,255,255,0.8);">@degeldbrouwerij</p>
+        </div>
+        <div class="social-label">Template C — Koper + viering</div>
+      </div>
+      <div class="social-card">
+        <div class="social-preview" style="background:var(--schuimwit);color:var(--houtbruin);border:1px solid var(--neutraal-20);">
+          <h4 style="font-style:italic;font-weight:400;color:var(--brouwerij-groen);">"Ik had geen idee<br>waar mijn geld<br>naartoe ging."</h4>
+          <p style="color:var(--koper);">— Roy, Brouwmeester</p>
+        </div>
+        <div class="social-label">Template D — Quote + persoonlijk</div>
+      </div>
+    </div>
+
+    <h3 style="font-family:var(--font-display);font-size:1.2rem;color:var(--brouwerij-groen);margin-bottom:var(--space-5);">Social regels</h3>
+    <table class="brand-table">
+      <thead><tr><th>Regel</th><th>Richtlijn</th></tr></thead>
+      <tbody>
+        <tr><td>Formaten</td><td>Instagram post: 1080×1080 · Story/Reel: 1080×1920 · LinkedIn: 1200×627</td></tr>
+        <tr><td>Fonts in afbeeldingen</td><td>Fraunces voor de headline, DM Sans voor subtekst. Altijd.</td></tr>
+        <tr><td>Maximaal tekst</td><td>Max 8-10 woorden per visueel. Headlines, geen paragrafen.</td></tr>
+        <tr><td>Logo plaatsing</td><td>Niet op elke post. Wel: @degeldbrouwerij in koper onderaan.</td></tr>
+        <tr><td>Emoji's</td><td>Spaarzaam. Max 1-2 per caption. Passend: 🍺 🫕 🍻 ☕ 💰. Niet: 🚀 💎 🔥 🤑</td></tr>
+        <tr><td>Verhouding</td><td>4 waarde-posts : 1 CTA-post. Nooit twee CTA's achter elkaar.</td></tr>
+        <tr><td>Video thumbnails</td><td>Altijd een tekstoverlay in Fraunces op een solid kleur achtergrond.</td></tr>
+        <tr><td>Hashtags</td><td>Max 10. Mix: 3 branded + 4 niche + 3 breed.</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- ============================== -->
+<!-- SECTION: TONE OF VOICE -->
+<!-- ============================== -->
+<section id="toon">
+  <div class="section-label">07 — Tone of Voice</div>
+  <h2 class="section-title">Hoe we klinken</h2>
+  <p class="section-desc">Alsof je met een slimme vriend aan de bar zit die toevallig heel veel weet over geld. Geen pak, geen jargon, geen PowerPoint. Gewoon eerlijk vertellen hoe het zit.</p>
+
+  <div class="tone-grid">
+    <div class="tone-card tone-do">
+      <div class="tone-badge">✓ Zo wel</div>
+      <blockquote>"We helpen je snappen waar je geld naartoe gaat. En dan regelen we samen dat het gaat waar jij wilt."</blockquote>
+    </div>
+    <div class="tone-card tone-dont">
+      <div class="tone-badge">✕ Zo niet</div>
+      <blockquote>"Wij bieden een integraal financieel bewustwordingstraject dat resulteert in een geoptimaliseerde cashflowstructuur."</blockquote>
+    </div>
+  </div>
+  <div class="tone-grid">
+    <div class="tone-card tone-do">
+      <div class="tone-badge">✓ Zo wel</div>
+      <blockquote>"Stap één: kijk eens wat er elke maand van je rekening afgaat. Schrik niet, iedereen schrikt."</blockquote>
+    </div>
+    <div class="tone-card tone-dont">
+      <div class="tone-badge">✕ Zo niet</div>
+      <blockquote>"Word nu financieel vrij! Verdien €10.000 per maand passief inkomen!"</blockquote>
+    </div>
+  </div>
+  <div class="tone-grid">
+    <div class="tone-card tone-do">
+      <div class="tone-badge">✓ Zo wel</div>
+      <blockquote>"Financiële rust begint klein. Met het potje dat je elke maand opzij zet zonder erbij na te denken."</blockquote>
+    </div>
+    <div class="tone-card tone-dont">
+      <div class="tone-badge">✕ Zo niet</div>
+      <blockquote>"U dient uw vaste lasten in kaart te brengen ten behoeve van een adequate budgettering."</blockquote>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <h3 style="font-family:var(--font-display);font-size:1.2rem;color:var(--brouwerij-groen);margin-bottom:var(--space-5);">Taalregels</h3>
+  <table class="brand-table">
+    <thead><tr><th>#</th><th>Regel</th><th>Voorbeeld</th></tr></thead>
+    <tbody>
+      <tr><td>1</td><td>Schrijf zoals je praat</td><td>"Klinkt bekend?" in plaats van "Herkent u dit?"</td></tr>
+      <tr><td>2</td><td>Altijd "je/jij", nooit "u"</td><td>"Je gaat naar huis met een plan" — niet "U ontvangt een actieplan"</td></tr>
+      <tr><td>3</td><td>Korte zinnen. Punt. Nieuwe zin.</td><td>"Dat is het. Geen app nodig. Drie rekeningen."</td></tr>
+      <tr><td>4</td><td>Geen financieel jargon</td><td>"Potjes" niet "budgetcategorieën". "Opzij zetten" niet "alloceren".</td></tr>
+      <tr><td>5</td><td>Eerlijk over wat je niet bent</td><td>"Ik ben geen financieel adviseur. Ik ben iemand die het zelf heeft uitgezocht."</td></tr>
+      <tr><td>6</td><td>Humor mag, nooit óm iemand</td><td>Lach mét mensen over herkenbare situaties, nooit óm hun financiële stress.</td></tr>
+      <tr><td>7</td><td>Eindig altijd met perspectief</td><td>Confronteer als het moet, maar sluit af met hoop en een volgende stap.</td></tr>
+      <tr><td>8</td><td>Vermijd het woord "advies"</td><td>Gebruik: coaching, begeleiding, bewustwording, inzicht.</td></tr>
+    </tbody>
+  </table>
+
+  <div class="divider"></div>
+
+  <h3 style="font-family:var(--font-display);font-size:1.2rem;color:var(--brouwerij-groen);margin-bottom:var(--space-5);">Woorden die we gebruiken</h3>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:var(--space-5);margin-bottom:var(--space-8);">
+    <div>
+      <h4 style="font-size:0.75rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--success);margin-bottom:var(--space-3);">✓ Wel</h4>
+      <p style="font-size:0.9rem;line-height:2;color:var(--houtbruin);">
+        rust · grip · overzicht · systeem · automatisch · potjes · opzij zetten · genieten · brouwen · recept · ingrediënten · nuchter · simpel · eerlijk · samen · stap voor stap · zonder gedoe · proost
+      </p>
+    </div>
+    <div>
+      <h4 style="font-size:0.75rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--error);margin-bottom:var(--space-3);">✕ Niet</h4>
+      <p style="font-size:0.9rem;line-height:2;color:var(--houtbruin);">
+        advies · rendement · portfolio · assets · allocatie · passief inkomen · financieel vrij in X jaar · snel rijk · hustle · grind · crypto · to the moon · FIRE · sigma · hack · geoptimaliseerd
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ============================== -->
+<!-- SECTION: SHADOWS & EFFECTS -->
+<!-- ============================== -->
+<div class="section-creme">
+  <div class="section-inner">
+    <div class="section-label">08 — Effecten & Details</div>
+    <h2 class="section-title">Schaduwen, radius & textuur</h2>
+    <p class="section-desc">Subtiel en warm. Schaduwen zijn altijd in brouwerij-groen getint, nooit puur zwart. Hoeken zijn afgerond. De textuur van linnen of kraftpapier mag als achtergrond-overlay.</p>
+
+    <h3 style="font-family:var(--font-display);font-size:1.2rem;color:var(--brouwerij-groen);margin-bottom:var(--space-5);">Schaduwen</h3>
+    <div style="display:flex;gap:var(--space-6);flex-wrap:wrap;margin-bottom:var(--space-9);">
+      <div style="width:160px;height:100px;background:white;border-radius:var(--radius-lg);box-shadow:var(--shadow-sm);display:flex;align-items:center;justify-content:center;font-size:0.7rem;font-weight:600;color:var(--neutraal-50);">SM</div>
+      <div style="width:160px;height:100px;background:white;border-radius:var(--radius-lg);box-shadow:var(--shadow-md);display:flex;align-items:center;justify-content:center;font-size:0.7rem;font-weight:600;color:var(--neutraal-50);">MD</div>
+      <div style="width:160px;height:100px;background:white;border-radius:var(--radius-lg);box-shadow:var(--shadow-lg);display:flex;align-items:center;justify-content:center;font-size:0.7rem;font-weight:600;color:var(--neutraal-50);">LG</div>
+      <div style="width:160px;height:100px;background:white;border-radius:var(--radius-lg);box-shadow:var(--shadow-xl);display:flex;align-items:center;justify-content:center;font-size:0.7rem;font-weight:600;color:var(--neutraal-50);">XL</div>
+      <div style="width:160px;height:100px;background:var(--koper);border-radius:var(--radius-lg);box-shadow:var(--shadow-koper);display:flex;align-items:center;justify-content:center;font-size:0.7rem;font-weight:600;color:white;">KOPER</div>
+    </div>
+
+    <h3 style="font-family:var(--font-display);font-size:1.2rem;color:var(--brouwerij-groen);margin-bottom:var(--space-5);">Border radius</h3>
+    <div style="display:flex;gap:var(--space-5);flex-wrap:wrap;align-items:flex-end;margin-bottom:var(--space-9);">
+      <div style="text-align:center;">
+        <div style="width:60px;height:60px;background:var(--koper-10);border-radius:var(--radius-sm);margin-bottom:var(--space-2);"></div>
+        <div style="font-size:0.65rem;color:var(--neutraal-50);">4px · SM</div>
+      </div>
+      <div style="text-align:center;">
+        <div style="width:60px;height:60px;background:var(--koper-10);border-radius:var(--radius-md);margin-bottom:var(--space-2);"></div>
+        <div style="font-size:0.65rem;color:var(--neutraal-50);">8px · MD</div>
+      </div>
+      <div style="text-align:center;">
+        <div style="width:60px;height:60px;background:var(--koper-10);border-radius:var(--radius-lg);margin-bottom:var(--space-2);"></div>
+        <div style="font-size:0.65rem;color:var(--neutraal-50);">12px · LG</div>
+      </div>
+      <div style="text-align:center;">
+        <div style="width:60px;height:60px;background:var(--koper-10);border-radius:var(--radius-xl);margin-bottom:var(--space-2);"></div>
+        <div style="font-size:0.65rem;color:var(--neutraal-50);">16px · XL</div>
+      </div>
+      <div style="text-align:center;">
+        <div style="width:60px;height:60px;background:var(--koper-10);border-radius:var(--radius-2xl);margin-bottom:var(--space-2);"></div>
+        <div style="font-size:0.65rem;color:var(--neutraal-50);">24px · 2XL</div>
+      </div>
+      <div style="text-align:center;">
+        <div style="width:60px;height:60px;background:var(--koper-10);border-radius:var(--radius-full);margin-bottom:var(--space-2);"></div>
+        <div style="font-size:0.65rem;color:var(--neutraal-50);">Full</div>
+      </div>
+    </div>
+
+    <h3 style="font-family:var(--font-display);font-size:1.2rem;color:var(--brouwerij-groen);margin-bottom:var(--space-5);">Animatie & transitie</h3>
+    <table class="brand-table">
+      <thead><tr><th>Type</th><th>Duur</th><th>Easing</th><th>Gebruik</th></tr></thead>
+      <tbody>
+        <tr><td>Hover states</td><td>150ms</td><td>ease-out</td><td>Knoppen, links, kaarten</td></tr>
+        <tr><td>Transities</td><td>300ms</td><td>cubic-bezier(0.16, 1, 0.3, 1)</td><td>Panelen, modals, accordions</td></tr>
+        <tr><td>Page load reveals</td><td>600ms</td><td>cubic-bezier(0.16, 1, 0.3, 1)</td><td>Secties die in beeld scrollen</td></tr>
+        <tr><td>Micro-interactions</td><td>150-300ms</td><td>ease-out</td><td>Tooltips, badges, notificaties</td></tr>
+      </tbody>
+    </table>
+    <p style="font-size:0.85rem;color:var(--neutraal-50);line-height:1.6;margin-top:var(--space-4);">
+      <strong>Principe:</strong> Animaties zijn subtiel en functioneel. Ze verduidelijken, niet afleiden. Kaarten liften 4px bij hover. Knoppen liften 2px. Pagina-elementen faden in van onder (20px translateY). Nooit: bounce, shake, of attention-seeking bewegingen.
+    </p>
+  </div>
+</div>
+
+<!-- ============================== -->
+<!-- SECTION: ICONOGRAPHY -->
+<!-- ============================== -->
+<section>
+  <div class="section-label">09 — Iconografie</div>
+  <h2 class="section-title">Iconen & symbolen</h2>
+  <p class="section-desc">Gebruik Lucide icons (open source, lijnstijl) als basis icon set. Stroke width: 1.5px. Kleur: brouwerij-groen of koper afhankelijk van context. Voor brouw-specifieke iconen: custom lijnillustraties in dezelfde stijl.</p>
+
+  <h3 style="font-family:var(--font-display);font-size:1.2rem;color:var(--brouwerij-groen);margin-bottom:var(--space-5);">Brouwerij iconen (custom)</h3>
+  <div class="icon-grid">
+    <div class="icon-item"><div class="icon-symbol">🫕</div><div class="icon-name">Brouwketel</div></div>
+    <div class="icon-item"><div class="icon-symbol">🍻</div><div class="icon-name">Proost</div></div>
+    <div class="icon-item"><div class="icon-symbol">🌿</div><div class="icon-name">Hop / Groei</div></div>
+    <div class="icon-item"><div class="icon-symbol">⚗️</div><div class="icon-name">Destilleren</div></div>
+    <div class="icon-item"><div class="icon-symbol">🪙</div><div class="icon-name">Munt / Geld</div></div>
+    <div class="icon-item"><div class="icon-symbol">📋</div><div class="icon-name">Recept</div></div>
+    <div class="icon-item"><div class="icon-symbol">⏱️</div><div class="icon-name">Rijping</div></div>
+    <div class="icon-item"><div class="icon-symbol">🏠</div><div class="icon-name">Vaste lasten</div></div>
+    <div class="icon-item"><div class="icon-symbol">👶</div><div class="icon-name">Kleine Brouwer</div></div>
+    <div class="icon-item"><div class="icon-symbol">🛡️</div><div class="icon-name">Bescherming</div></div>
+  </div>
+  <p style="font-size:0.85rem;color:var(--neutraal-50);line-height:1.6;">
+    <strong>Noot:</strong> De emoji's hierboven zijn placeholders. Voor productie: laat custom lijnillustraties maken in koperen of groene lijnstijl (stroke: 1.5px, ronde uiteinden). Consistent met de Lucide-stijl maar met brouwerij-karakter.
+  </p>
+</section>
+
+<!-- ============================== -->
+<!-- SECTION: CSS VARIABLES REFERENCE -->
+<!-- ============================== -->
+<div class="section-dark">
+  <div class="section-inner">
+    <div class="section-label" style="color:var(--koper-licht);">10 — Ontwikkelaars</div>
+    <h2 class="section-title">CSS Variabelen</h2>
+    <p class="section-desc">Kopieer dit blok naar je project. Alle design tokens in één plek. Gebruik altijd variabelen, nooit hardcoded waardes.</p>
+
+    <div style="background:rgba(0,0,0,0.3);border-radius:var(--radius-lg);padding:var(--space-6);overflow-x:auto;margin-bottom:var(--space-8);">
+<pre style="font-family:'SF Mono',Monaco,Consolas,monospace;font-size:0.75rem;color:var(--groen-10);line-height:1.8;margin:0;white-space:pre-wrap;">
+:root {
+  /* Kleuren */
+  --brouwerij-groen: #1B3A2D;
+  --koper: #C78C4E;
+  --koper-licht: #D4A46E;
+  --koper-donker: #A67339;
+  --creme: #F5F0E8;
+  --schuimwit: #FEFCF7;
+  --houtbruin: #3D2B1F;
+  --hopgoud: #E8B84B;
+  --success: #27AE60;
+  --warning: #E8B84B;
+  --error: #C0392B;
+
+  /* Fonts */
+  --font-display: 'Fraunces', Georgia, serif;
+  --font-body: 'DM Sans', sans-serif;
+
+  /* Spacing (8px base) */
+  --sp-1: 0.25rem; --sp-2: 0.5rem; --sp-3: 0.75rem;
+  --sp-4: 1rem; --sp-5: 1.5rem; --sp-6: 2rem;
+  --sp-7: 2.5rem; --sp-8: 3rem; --sp-9: 4rem;
+  --sp-10: 5rem; --sp-11: 6rem; --sp-12: 8rem;
+
+  /* Radius */
+  --radius-sm: 4px; --radius-md: 8px; --radius-lg: 12px;
+  --radius-xl: 16px; --radius-2xl: 24px; --radius-full: 9999px;
+
+  /* Shadows */
+  --shadow-sm: 0 1px 2px rgba(27,58,45,0.06);
+  --shadow-md: 0 4px 12px rgba(27,58,45,0.08);
+  --shadow-lg: 0 8px 30px rgba(27,58,45,0.12);
+  --shadow-xl: 0 16px 50px rgba(27,58,45,0.16);
+
+  /* Transitions */
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --duration-fast: 150ms;
+  --duration-normal: 300ms;
+}
+</pre>
+    </div>
+  </div>
+</div>
+
+<!-- ============================== -->
+<!-- FOOTER -->
+<!-- ============================== -->
+<section style="text-align:center;padding:var(--space-12) var(--space-6) var(--space-9);">
+  <div style="font-family:var(--font-display);font-size:clamp(1.5rem,3vw,2.5rem);font-weight:400;color:var(--brouwerij-groen);margin-bottom:var(--space-4);letter-spacing:-0.02em;">
+    Als het niet klinkt alsof het<br>uit een Geldbrouwerij komt,<br><em style="color:var(--koper);">brouw het opnieuw.</em>
+  </div>
+  <p style="font-size:0.8rem;color:var(--neutraal-40);margin-top:var(--space-7);">
+    © 2026 De Geldbrouwerij · Brand Guide v1.0 · Vertrouwelijk
+  </p>
+</section>
+
+<script>
+// Scroll reveal animation
+const reveals = document.querySelectorAll('.reveal');
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible');
+    }
+  });
+}, { threshold: 0.1 });
+reveals.forEach(el => observer.observe(el));
+
+// Smooth nav hide on scroll
+let lastScroll = 0;
+const nav = document.querySelector('nav');
+window.addEventListener('scroll', () => {
+  const current = window.scrollY;
+  if (current > lastScroll && current > 100) {
+    nav.style.transform = 'translateY(-100%)';
+  } else {
+    nav.style.transform = 'translateY(0)';
+  }
+  lastScroll = current;
+});
+</script>
+</body>
+</html>

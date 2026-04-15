@@ -1,0 +1,66 @@
+# Dependencies
+node_modules/
+.pnp
+.pnp.*
+
+# Next.js
+app/.next/
+app/out/
+app/build/
+
+# Env files — NEVER commit
+.env
+.env.local
+.env*.local
+!.env.example
+app/.env
+app/.env.local
+app/.env*.local
+
+# Local data stores (users, leads, posts, etc)
+.data/
+app/.data/
+
+# Playwright test artefacten
+app/test-results/
+app/playwright-report/
+app/.playwright-mcp/
+app/playwright/.cache/
+.playwright-mcp/
+
+# OS / editor
+.DS_Store
+.idea/
+.vscode/
+*.swp
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+pnpm-debug.log*
+
+# TS build info
+*.tsbuildinfo
+app/next-env.d.ts
+
+# Claude Code local state
+.claude/settings.local.json
+
+# Coverage
+coverage/
+
+# Symlinks
+/node_modules
+
+# Screenshots uit session (lokale preview only)
+/home-*.png
+/brouwketel-*.png
+/cursus.png
+/tapkamer.png
+/dashboard.png
+/clerk-*.png
+/github-*.png
+/resend-*.png
+/signup-*.png
+/image*.png

@@ -1,0 +1,1115 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>De Geldbrouwerij — Social Media Bibliotheek</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,300;1,9..40,400&family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;0,9..144,800;0,9..144,900;1,9..144,300;1,9..144,400;1,9..144,500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --brouwerij-groen: #1B3A2D;
+  --koper: #C78C4E;
+  --koper-licht: #D4A46E;
+  --koper-donker: #A67339;
+  --creme: #F5F0E8;
+  --schuimwit: #FEFCF7;
+  --houtbruin: #3D2B1F;
+  --hopgoud: #E8B84B;
+  --success: #27AE60;
+  --error: #C0392B;
+  --neutraal-40: #B5A496;
+  --neutraal-50: #9A8475;
+  --neutraal-20: #E5DDD4;
+  --neutraal-10: #F0EBE4;
+  --groen-5: #D9EAE2;
+  --groen-10: #A3C4B6;
+  --groen-30: #2D5A47;
+  --koper-5: #F6EBDA;
+  --font-display: 'Fraunces', Georgia, serif;
+  --font-body: 'DM Sans', sans-serif;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: var(--font-body);
+  background: #F8F6F1;
+  color: var(--houtbruin);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* NAV */
+.top-bar {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: rgba(248,246,241,0.92);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid rgba(27,58,45,0.06);
+  padding: 16px 32px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.top-bar h1 {
+  font-family: var(--font-display);
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--brouwerij-groen);
+}
+.top-bar h1 span { color: var(--koper); }
+.top-bar .tag {
+  font-size: 0.65rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--koper);
+  background: var(--koper-5);
+  padding: 4px 12px;
+  border-radius: 99px;
+}
+
+/* FILTER */
+.filter-bar {
+  padding: 20px 32px;
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  position: sticky;
+  top: 53px;
+  z-index: 99;
+  background: rgba(248,246,241,0.92);
+  backdrop-filter: blur(20px);
+}
+.filter-btn {
+  font-family: var(--font-body);
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 8px 16px;
+  border-radius: 99px;
+  border: 1.5px solid var(--neutraal-20);
+  background: white;
+  color: var(--neutraal-50);
+  cursor: pointer;
+  transition: all 150ms;
+}
+.filter-btn:hover { border-color: var(--koper); color: var(--koper); }
+.filter-btn.active { background: var(--brouwerij-groen); color: var(--creme); border-color: var(--brouwerij-groen); }
+
+/* GRID */
+.grid-section {
+  padding: 40px 32px 20px;
+}
+.grid-section h2 {
+  font-family: var(--font-display);
+  font-size: 1.4rem;
+  font-weight: 500;
+  color: var(--brouwerij-groen);
+  margin-bottom: 8px;
+}
+.grid-section p {
+  font-size: 0.82rem;
+  color: var(--neutraal-50);
+  margin-bottom: 24px;
+  max-width: 500px;
+  line-height: 1.6;
+}
+
+.post-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 20px;
+  padding: 0 32px 40px;
+}
+
+/* POST CARD */
+.post-card {
+  border-radius: 16px;
+  overflow: hidden;
+  background: white;
+  box-shadow: 0 2px 8px rgba(27,58,45,0.06);
+  transition: transform 300ms cubic-bezier(0.16,1,0.3,1), box-shadow 300ms;
+}
+.post-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 40px rgba(27,58,45,0.1);
+}
+
+/* POST VISUAL */
+.post-visual {
+  aspect-ratio: 1;
+  display: flex;
+  flex-direction: column;
+  padding: 32px;
+  position: relative;
+  overflow: hidden;
+}
+.post-visual.ratio-story { aspect-ratio: 9/16; }
+.post-visual.ratio-landscape { aspect-ratio: 16/9; }
+
+/* POST META */
+.post-meta {
+  padding: 14px 18px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-top: 1px solid var(--neutraal-10);
+}
+.post-type {
+  font-size: 0.6rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+.post-type.wake-up { color: var(--error); }
+.post-type.educatief { color: var(--brouwerij-groen); }
+.post-type.persoonlijk { color: var(--koper); }
+.post-type.cta { color: var(--hopgoud); }
+.post-type.proost { color: var(--success); }
+.post-type.schuimkraag { color: var(--neutraal-50); }
+.post-type.kleine-brouwer { color: #8B5CF6; }
+.post-type.carousel { color: #3B82F6; }
+.post-format {
+  font-size: 0.6rem;
+  color: var(--neutraal-40);
+  font-weight: 500;
+}
+
+/* VISUAL STYLES */
+.v-groen {
+  background: var(--brouwerij-groen);
+  color: var(--creme);
+}
+.v-creme {
+  background: var(--creme);
+  color: var(--brouwerij-groen);
+}
+.v-koper {
+  background: linear-gradient(135deg, var(--koper) 0%, var(--koper-donker) 100%);
+  color: white;
+}
+.v-wit {
+  background: var(--schuimwit);
+  color: var(--houtbruin);
+  border-bottom: 1px solid var(--neutraal-10);
+}
+.v-split-v {
+  background: linear-gradient(to right, var(--brouwerij-groen) 50%, var(--creme) 50%);
+  color: var(--creme);
+}
+.v-gradient-groen {
+  background: linear-gradient(160deg, #0F1F18 0%, var(--brouwerij-groen) 50%, var(--groen-30) 100%);
+  color: var(--creme);
+}
+.v-gradient-warm {
+  background: linear-gradient(135deg, var(--creme) 0%, var(--koper-5) 50%, var(--neutraal-10) 100%);
+  color: var(--brouwerij-groen);
+}
+.v-dark-koper {
+  background: linear-gradient(160deg, var(--brouwerij-groen) 0%, #1a2f25 100%);
+  color: var(--koper-licht);
+}
+.v-bold-stat {
+  background: var(--brouwerij-groen);
+  color: var(--creme);
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+.v-error {
+  background: #2D1114;
+  color: #F5A9A9;
+}
+
+/* TYPOGRAPHY IN POSTS */
+.post-visual h3 {
+  font-family: var(--font-display);
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+}
+.post-visual .post-sub {
+  font-family: var(--font-body);
+  font-size: 0.82rem;
+  line-height: 1.5;
+  opacity: 0.75;
+  margin-top: 12px;
+}
+.post-visual .post-brand {
+  font-family: var(--font-body);
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  margin-top: auto;
+}
+.post-visual .post-brand-koper { color: var(--koper); }
+.post-visual .post-brand-light { opacity: 0.5; }
+
+/* STAT POSTS */
+.stat-number {
+  font-family: var(--font-display);
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: -0.03em;
+}
+.stat-label {
+  font-family: var(--font-body);
+  font-weight: 500;
+  line-height: 1.4;
+  margin-top: 8px;
+}
+
+/* QUOTE STYLE */
+.quote-mark {
+  font-family: var(--font-display);
+  font-size: 4rem;
+  line-height: 1;
+  opacity: 0.2;
+  position: absolute;
+  top: 24px;
+  left: 28px;
+}
+.quote-text {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 400;
+  line-height: 1.4;
+}
+.quote-author {
+  font-family: var(--font-body);
+  font-size: 0.78rem;
+  font-weight: 600;
+  margin-top: 16px;
+  opacity: 0.7;
+}
+
+/* CIRCLE ACCENT */
+.circle-accent {
+  position: absolute;
+  border-radius: 50%;
+  opacity: 0.08;
+}
+
+/* LIST STYLE */
+.post-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 16px;
+}
+.post-list li {
+  font-family: var(--font-body);
+  font-size: 0.82rem;
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  line-height: 1.4;
+}
+.post-list .check { color: var(--koper-licht); flex-shrink: 0; }
+
+/* DIVIDER IN POSTS */
+.post-divider {
+  width: 40px;
+  height: 2px;
+  border-radius: 1px;
+  margin: 16px 0;
+}
+
+/* STEP INDICATOR */
+.step-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  font-family: var(--font-display);
+  font-size: 0.8rem;
+  font-weight: 700;
+  margin-bottom: 12px;
+}
+
+/* CAROUSEL DOTS */
+.carousel-dots {
+  display: flex;
+  gap: 6px;
+  justify-content: center;
+  margin-top: auto;
+  padding-top: 16px;
+}
+.carousel-dots .dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  opacity: 0.3;
+}
+.carousel-dots .dot.active { opacity: 1; }
+
+/* PRICE TAG */
+.price-tag {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 20px;
+}
+.price-tag .price {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 2.5rem;
+  line-height: 1;
+}
+.price-tag .price-sub {
+  font-size: 0.72rem;
+  opacity: 0.6;
+  margin-top: 4px;
+}
+
+/* RESPONSIVE */
+@media (max-width: 768px) {
+  .post-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; padding: 0 16px 32px; }
+  .grid-section { padding: 32px 16px 16px; }
+  .filter-bar { padding: 16px; }
+  .top-bar { padding: 14px 16px; }
+}
+@media (max-width: 500px) {
+  .post-grid { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<div class="top-bar">
+  <h1>De Geld<span>brouwerij</span></h1>
+  <span class="tag">Social Media Bibliotheek</span>
+</div>
+
+<div class="filter-bar">
+  <button class="filter-btn active">Alle posts</button>
+  <button class="filter-btn">Wake-up call</button>
+  <button class="filter-btn">Educatief</button>
+  <button class="filter-btn">Persoonlijk</button>
+  <button class="filter-btn">CTA</button>
+  <button class="filter-btn">Proost-moment</button>
+  <button class="filter-btn">Schuimkraag</button>
+  <button class="filter-btn">Kleine Brouwer</button>
+  <button class="filter-btn">Carousel</button>
+</div>
+
+<!-- ================================ -->
+<!-- WAKE-UP CALL POSTS -->
+<!-- ================================ -->
+<div class="grid-section">
+  <h2>Wake-up call</h2>
+  <p>Confronterend. Stopt het scrollen. Maakt mensen bewust van het probleem. Altijd eindigend met perspectief.</p>
+</div>
+<div class="post-grid">
+
+  <!-- W1 -->
+  <div class="post-card">
+    <div class="post-visual v-bold-stat">
+      <div class="stat-number" style="font-size:5rem;color:var(--koper);">47%</div>
+      <div class="stat-label" style="font-size:1rem;max-width:200px;">van de Nederlanders is financieel kwetsbaar.</div>
+      <div class="post-divider" style="background:var(--koper);margin:16px auto;"></div>
+      <div style="font-size:0.78rem;opacity:0.5;">Bron: Nibud/Deloitte, 2025</div>
+      <div class="post-brand post-brand-light" style="margin-top:24px;">@degeldbrouwerij</div>
+    </div>
+    <div class="post-meta">
+      <span class="post-type wake-up">Wake-up call</span>
+      <span class="post-format">1080 × 1080</span>
+    </div>
+  </div>
+
+  <!-- W2 -->
+  <div class="post-card">
+    <div class="post-visual v-groen">
+      <h3 style="font-size:1.6rem;">Je buurman z'n<br>nieuwe keuken?</h3>
+      <div class="post-divider" style="background:var(--koper);"></div>
+      <p class="post-sub" style="opacity:0.9;font-size:0.9rem;">Waarschijnlijk geleend geld.<br><br>Echte rijkdom zie je niet.</p>
+      <div class="post-brand post-brand-koper">@degeldbrouwerij</div>
+    </div>
+    <div class="post-meta">
+      <span class="post-type wake-up">Wake-up call</span>
+      <span class="post-format">1080 × 1080</span>
+    </div>
+  </div>
+
+  <!-- W3 -->
+  <div class="post-card">
+    <div class="post-visual v-creme" style="justify-content:center;align-items:center;text-align:center;">
+      <div style="font-size:0.7rem;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:var(--koper);margin-bottom:16px;">Het gemiddelde spaargeld</div>
+      <div style="display:flex;align-items:baseline;gap:16px;justify-content:center;">
+        <div style="text-align:center;">
+          <div class="stat-number" style="font-size:2.8rem;color:var(--brouwerij-groen);">€54.700</div>
+          <div style="font-size:0.7rem;color:var(--neutraal-50);margin-top:4px;">gemiddeld</div>
+        </div>
+        <div style="font-family:var(--font-display);font-size:1.5rem;color:var(--neutraal-40);">vs</div>
+        <div style="text-align:center;">
+          <div class="stat-number" style="font-size:2.8rem;color:var(--error);">€21.500</div>
+          <div style="font-size:0.7rem;color:var(--neutraal-50);margin-top:4px;">mediaan</div>
+        </div>
+      </div>
+      <p class="post-sub" style="margin-top:20px;opacity:1;color:var(--neutraal-50);font-size:0.82rem;">Het gemiddelde wordt omhooggetrokken<br>door een kleine groep met veel spaargeld.</p>
+      <div class="post-brand post-brand-koper" style="margin-top:24px;">@degeldbrouwerij</div>
+    </div>
+    <div class="post-meta">
+      <span class="post-type wake-up">Wake-up call</span>
+      <span class="post-format">1080 × 1080</span>
+    </div>
+  </div>
+
+  <!-- W4 -->
+  <div class="post-card">
+    <div class="post-visual v-error">
+      <div style="font-size:0.7rem;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;opacity:0.6;margin-bottom:12px;">Wist je dat</div>
+      <h3 style="font-size:1.5rem;color:white;">80% van de Nederlanders kan echt en nep niet meer onderscheiden door AI.</h3>
+      <div class="post-divider" style="background:rgba(255,255,255,0.2);"></div>
+      <p class="post-sub" style="color:#F5A9A9;opacity:1;">Slechts 4% herkent een gekloonde stem. Slechts 13% heeft een codewoord afgesproken met familie.</p>
+      <div class="post-brand" style="color:rgba(255,255,255,0.4);">@degeldbrouwerij</div>
+    </div>
+    <div class="post-meta">
+      <span class="post-type wake-up">Wake-up call</span>
+      <span class="post-format">1080 × 1080</span>
+    </div>
+  </div>
+
+  <!-- W5 -->
+  <div class="post-card">
+    <div class="post-visual v-gradient-groen" style="justify-content:center;text-align:center;align-items:center;">
+      <div style="font-size:0.7rem;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:var(--koper-licht);margin-bottom:20px;">Financiële stress op de werkvloer</div>
+      <div class="stat-number" style="font-size:3.5rem;color:white;">€13.000</div>
+      <div class="stat-label" style="font-size:0.95rem;color:var(--groen-10);max-width:220px;">per werknemer per jaar aan productiviteitsverlies.</div>
+      <div class="post-brand" style="color:var(--koper-licht);margin-top:32px;">@degeldbrouwerij</div>
+    </div>
+    <div class="post-meta">
+      <span class="post-type wake-up">Wake-up call</span>
+      <span class="post-format">1080 × 1080</span>
+    </div>
+  </div>
+
+  <!-- W6 -->
+  <div class="post-card">
+    <div class="post-visual v-groen" style="justify-content:center;text-align:center;align-items:center;">
+      <h3 style="font-size:1.8rem;color:white;">Coolblue:</h3>
+      <div style="font-family:var(--font-display);font-size:1.3rem;font-style:italic;color:var(--koper-licht);margin:12px 0;">"Koop nu, betaal later."</div>
+      <div class="post-divider" style="background:rgba(255,255,255,0.15);margin:16px auto;"></div>
+      <h3 style="font-size:1.2rem;color:var(--groen-10);font-weight:400;">Je toekomstige zelf:</h3>
+      <div style="font-family:var(--font-display);font-size:1.3rem;font-style:italic;color:white;margin-top:8px;">"Bedankt hè."</div>
+      <div class="post-brand" style="color:var(--koper-licht);margin-top:32px;">@degeldbrouwerij</div>
+    </div>
+    <div class="post-meta">
+      <span class="post-type wake-up">Wake-up call</span>
+      <span class="post-format">1080 × 1080</span>
+    </div>
+  </div>
+
+</div>
+
+<!-- ================================ -->
+<!-- EDUCATIEF POSTS -->
+<!-- ================================ -->
+<div class="grid-section">
+  <h2>Educatief</h2>
+  <p>Waarde geven in 60 seconden. Eén concept, helder uitgelegd. Dit is de kern van je content.</p>
+</div>
+<div class="post-grid">
+
+  <!-- E1 -->
+  <div class="post-card">
+    <div class="post-visual v-creme">
+      <div style="font-size:0.7rem;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:var(--koper);margin-bottom:16px;">Het potjessysteem</div>
+      <h3 style="font-size:1.5rem;">3 potjes.<br>1 systeem.<br>0 stress.</h3>
+      <ul class="post-list" style="margin-top:20px;">
+        <li><span class="check">①</span> <span><strong>Vaste Lasten</strong> — huur, verzekeringen, abonnementen</span></li>
+        <li><span class="check">②</span> <span><strong>Leven</strong> — boodschappen, tanken, uit eten</span></li>
+        <li><span class="check">③</span> <span><strong>Brouwen</strong> — sparen, beleggen, toekomst</span></li>
+      </ul>
+      <div class="post-brand post-brand-koper">@degeldbrouwerij</div>
+    </div>
+    <div class="post-meta">
+      <span class="post-type educatief">Educatief</span>
+      <span class="post-format">1080 × 1080</span>
+    </div>
+  </div>
+
+  <!-- E2 -->
+  <div class="post-card">
+    <div class="post-visual v-gradient-warm" style="justify-content:center;align-items:center;text-align:center;">
+      <div style="font-size:0.7rem;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:var(--koper);margin-bottom:20px;">Compound interest</div>
+      <div style="display:flex;flex-direction:column;gap:12px;">
+        <div>
+          <div style="font-size:0.75rem;color:var(--neutraal-50);">€100/mnd × 30 jaar × 7%</div>
+          <div class="stat-number" style="font-size:2rem;color:var(--brouwerij-groen);">€113.000</div>
+        </div>
+        <div>
+          <div style="font-size:0.75rem;color:var(--neutraal-50);">€200/mnd × 30 jaar × 7%</div>
+          <div class="stat-number" style="font-size:2rem;color:var(--brouwerij-groen);">€227.000</div>
+        </div>
+        <div>
+          <div style="font-size:0.75rem;color:var(--neutraal-50);">€300/mnd × 30 jaar × 7%</div>
+          <div class="stat-number" style="font-size:2rem;color:var(--koper);">€340.000</div>
+        </div>
+      </div>
+      <p class="post-sub" style="margin-top:16px;opacity:1;color:var(--neutraal-50);">Het maakt niet uit hoeveel.<br>Het maakt uit dat je begint.</p>
+      <div class="post-brand post-brand-koper" style="margin-top:20px;">@degeldbrouwerij</div>
+    </div>
+    <div class="post-meta">
+      <span class="post-type educatief">Educatief</span>
+      <span class="post-format">1080 × 1080</span>
+    </div>
+  </div>
+
+  <!-- E3 -->
+  <div class="post-card">
+    <div class="post-visual v-groen">
+      <div style="font-size:0.7rem;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:var(--koper-licht);margin-bottom:16px;">De gouden regel</div>
+      <h3 style="font-size:1.8rem;color:white;">Betaal jezelf<br><span style="color:var(--koper-licht);">eerst.</span></h3>
+      <div class="post-divider" style="background:var(--koper);"></div>
+      <p class="post-sub" style="color:var(--groen-10);opacity:1;font-size:0.88rem;">
+        De meeste mensen sparen wat overblijft.<br><br>
+        Draai het om. Stel het in. Automatisch. Op de dag na salarisdag.<br><br>
+        Wat op je leefgeldrekening staat mag je uitgeven. Zonder schuldgevoel.
+      </p>
+      <div class="post-brand" style="color:var(--koper-licht);">@degeldbrouwerij</div>
+    </div>
+    <div class="post-meta">
+      <span class="post-type educatief">Educatief</span>
+      <span class="post-format">1080 × 1080</span>
+    </div>
+  </div>
+
+  <!-- E4 -->
+  <div class="post-card">
+    <div class="post-visual v-creme" style="justify-content:center;align-items:center;text-align:center;">
+      <div style="font-size:0.7rem;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:var(--koper);">De 50 / 30 / 20 regel</div>
+      <div style="display:flex;gap:8px;margin:24px 0;width:100%;height:40px;border-radius:8px;overflow:hidden;">
+        <div style="flex:50;background:var(--brouwerij-groen);display:flex;align-items:center;justify-content:center;color:white;font-size:0.7rem;font-weight:700;border-radius:8px 0 0 8px;">50%</div>
+        <div style="flex:30;background:var(--koper);display:flex;align-items:center;justify-content:center;color:white;font-size:0.7rem;font-weight:700;">30%</div>
+        <div style="flex:20;background:var(--hopgoud);display:flex;align-items:center;justify-content:center;color:white;font-size:0.7rem;font-weight:700;border-radius:0 8px 8px 0;">20%</div>
+      </div>
+      <div style="display:flex;gap:16px;text-align:center;">
+        <div style="flex:1;"><div style="font-size:0.72rem;font-weight:600;color:var(--brouwerij-groen);">Vaste Lasten</div><div style="font-size:0.65rem;color:var(--neutraal-50);margin-top:2px;">huur, energie, verzekeringen</div></div>
+        <div style="flex:1;"><div style="font-size:0.72rem;font-weight:600;color:var(--koper);">Leven</div><div style="font-size:0.65rem;color:var(--neutraal-50);margin-top:2px;">boodschappen, uit eten, kleding</div></div>
+        <div style="flex:1;"><div style="font-size:0.72rem;font-weight:600;color:var(--koper-donker);">Brouwen</div><div style="font-size:0.65rem;color:var(--neutraal-50);margin-top:2px;">sparen, beleggen, toekomst</div></div>
+      </div>
+      <div class="post-brand post-brand-koper" style="margin-top:24px;">@degeldbrouwerij</div>
+    </div>
+    <div class="post-meta">
+      <span class="post-type educatief">Educatief</span>
+      <span class="post-format">1080 × 1080</span>
+    </div>
+  </div>
+
+  <!-- E5 -->
+  <div class="post-card">
+    <div class="post-visual v-dark-koper" style="justify-content:center;">
+      <div style="font-size:0.7rem;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:var(--koper);margin-bottom:16px;">De "slaap er een nacht over" regel</div>
+      <h3 style="font-size:1.4rem;color:var(--creme);">
+        Boven €50?<br>
+        <span style="color:var(--koper-licht);">Wacht 24 uur.</span><br><br>
+        Boven €200?<br>
+        <span style="color:var(--koper-licht);">Wacht een week.</span>
+      </h3>
+      <p class="post-sub" style="color:var(--groen-10);margin-top:20px;">Vraag jezelf: zou ik dit ook kopen als niemand het kon zien?</p>
+      <div class="post-brand" style="color:var(--koper);">@degeldbrouwerij</div>
+    </div>
+    <div class="post-meta">
+      <span class="post-type educatief">Educatief</span>
+      <span class="post-format">1080 × 1080</span>
+    </div>
+  </div>
+
+</div>
+
+<!-- ================================ -->
+<!-- PERSOONLIJK POSTS -->
+<!-- ================================ -->
+<div class="grid-section">
+  <h2>Persoonlijk / Brouwmeester vertelt</h2>
+  <p>Connectie maken. Roy als mens laten zien. Kwetsbaar, eerlijk, herkenbaar.</p>
+</div>
+<div class="post-grid">
+
+  <!-- P1 -->
+  <div class="post-card">
+    <div class="post-visual v-wit" style="position:relative;">
+      <div class="quote-mark" style="color:var(--koper);">"</div>
+      <div style="margin-top:40px;">
+        <div class="quote-text" style="font-size:1.2rem;color:var(--brouwerij-groen);">Ik heb geen extreem hoog inkomen. Ik rij geen dikke auto. Maar ik heb wél financiële rust.</div>
+        <div class="quote-author" style="color:var(--koper);">— Roy, Brouwmeester</div>
+      </div>
+      <div class="post-brand post-brand-koper">@degeldbrouwerij</div>
+    </div>
+    <div class="post-meta">
+      <span class="post-type persoonlijk">Persoonlijk</span>
+      <span class="post-format">1080 × 1080</span>
+    </div>
+  </div>
+
+  <!-- P2 -->
+  <div class="post-card">
+    <div class="post-visual v-creme">
+      <div style="font-size:0.7rem;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:var(--koper);margin-bottom:12px;">Brouwmeester vertelt</div>
+      <h3 style="font-size:1.35rem;">3 jaar geleden kocht ik iets van €800 omdat een influencer het aanraadde.</h3>
+      <p class="post-sub" style="opacity:1;color:var(--neutraal-50);">Ik heb het twee keer gebruikt.<br><br>Dat was mijn wake-up call.<br><br>Nu vraag ik bij alles boven de €50: zou ik dit ook kopen als niemand het kon zien?</p>
+      <div class="post-brand post-brand-koper">@degeldbrouwerij</div>
+    </div>
+    <div class="post-meta">
+      <span class="post-type persoonlijk">Persoonlijk</span>
+      <span class="post-format">1080 × 1080</span>
+    </div>
+  </div>
+
+  <!-- P3 -->
+  <div class="post-card">
+    <div class="post-visual v-groen" style="position:relative;">
+      <div class="quote-mark" style="color:var(--koper-licht);">"</div>
+      <div style="margin-top:40px;">
+        <div class="quote-text" style="font-size:1.15rem;color:white;">Het probleem was niet dat ik te weinig verdiende. Het probleem was dat ik geen systeem had.</div>
+        <div class="post-divider" style="background:var(--koper);"></div>
+        <p class="post-sub" style="color:var(--groen-10);opacity:1;">Eén keer goed instellen. Nooit meer zorgen. Dat is Het Brouwproces™.</p>
+      </div>
+      <div class="post-brand" style="color:var(--koper-licht);">@degeldbrouwerij</div>
+    </div>
+    <div class="post-meta">
+      <span class="post-type persoonlijk">Persoonlijk</span>
+      <span class="post-format">1080 × 1080</span>
+    </div>
+  </div>
+
+</div>
+
+<!-- ================================ -->
+<!-- CTA POSTS -->
+<!-- ================================ -->
+<div class="grid-section">
+  <h2>CTA / Conversie</h2>
+  <p>Max 1 op de 5 posts. Direct, helder, met een duidelijke actie. Nooit schreeuwerig.</p>
+</div>
+<div class="post-grid">
+
+  <!-- C1 -->
+  <div class="post-card">
+    <div class="post-visual v-koper" style="justify-content:center;align-items:center;text-align:center;">
+      <h3 style="font-size:1.6rem;">Waar sta jij<br>op je 67e?</h3>
+      <p class="post-sub" style="opacity:0.9;">Check het in 5 minuten.<br>Gratis. Anoniem. Eerlijk.</p>
+      <div style="margin-top:24px;padding:10px 24px;background:white;border-radius:8px;font-weight:600;font-size:0.85rem;color:var(--koper-donker);">Start de Brouwketel →</div>
+      <div class="post-brand" style="color:rgba(255,255,255,0.5);margin-top:20px;">link in bio</div>
+    </div>
+    <div class="post-meta">
+      <span class="post-type cta">CTA</span>
+      <span class="post-format">1080 × 1080</span>
+    </div>
+  </div>
+
+  <!-- C2 -->
+  <div class="post-card">
+    <div class="post-visual v-groen" style="justify-content:center;align-items:center;text-align:center;">
+      <div style="font-size:0.7rem;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:var(--koper-licht);margin-bottom:16px;">Het Brouwplatform</div>
+      <h3 style="font-size:1.4rem;color:white;">Het Brouwrecept.<br>De Brouwketel.<br>De Tapkamer.</h3>
+      <p class="post-sub" style="color:var(--groen-10);">Alles wat je nodig hebt om grip te krijgen op je geld.</p>
+      <div class="price-tag" style="margin-top:20px;">
+        <div class="price" style="color:var(--koper-licht);">€1</div>
+        <div class="price-sub" style="color:var(--groen-10);">eerste 30 dagen · daarna €19,95/mnd</div>
+      </div>
+      <div class="post-brand" style="color:rgba(255,255,255,0.4);margin-top:20px;">link in bio</div>
+    </div>
+    <div class="post-meta">
+      <span class="post-type cta">CTA</span>
+      <span class="post-format">1080 × 1080</span>
+    </div>
+  </div>
+
+  <!-- C3 -->
+  <div class="post-card">
+    <div class="post-visual v-creme" style="justify-content:center;align-items:center;text-align:center;">
+      <div style="font-size:0.7rem;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:var(--koper);margin-bottom:16px;">Online workshop</div>
+      <h3 style="font-size:1.5rem;">De Brouwavond</h3>
+      <p class="post-sub" style="opacity:1;color:var(--neutraal-50);">2 uur · online · €29<br>Volgende: donderdag 24 april</p>
+      <ul class="post-list" style="text-align:left;max-width:220px;margin:20px auto 0;">
+        <li><span class="check" style="color:var(--koper);">✓</span> Het potjessysteem instellen</li>
+        <li><span class="check" style="color:var(--koper);">✓</span> Automatisering live demo</li>
+        <li><span class="check" style="color:var(--koper);">✓</span> Concreet plan mee naar huis</li>
+      </ul>
+      <div style="margin-top:20px;padding:10px 24px;background:var(--brouwerij-groen);border-radius:8px;font-weight:600;font-size:0.85rem;color:var(--creme);">Reserveer je plek →</div>
+      <div class="post-brand post-brand-koper" style="margin-top:16px;">Nog 4 plekken</div>
+    </div>
+    <div class="post-meta">
+      <span class="post-type cta">CTA</span>
+      <span class="post-format">1080 × 1080</span>
+    </div>
+  </div>
+
+</div>
+
+<!-- ================================ -->
+<!-- PROOST POSTS -->
+<!-- ================================ -->
+<div class="grid-section">
+  <h2>Proost-moment</h2>
+  <p>Viering. Mijlpalen van klanten (met toestemming). Inspirerend en motiverend voor anderen.</p>
+</div>
+<div class="post-grid">
+
+  <!-- PR1 -->
+  <div class="post-card">
+    <div class="post-visual v-koper" style="justify-content:center;align-items:center;text-align:center;">
+      <div style="font-size:2.5rem;margin-bottom:12px;">🍻</div>
+      <h3 style="font-size:1.4rem;">Proost-moment!</h3>
+      <div class="stat-number" style="font-size:3rem;margin:16px 0;">€3.200</div>
+      <p class="post-sub" style="opacity:0.9;">Mark uit Barneveld. 6 maanden geleden begonnen. Vandaag: €3.200 in zijn Vat, nul schulden.</p>
+      <div class="post-brand" style="color:rgba(255,255,255,0.5);">@degeldbrouwerij</div>
+    </div>
+    <div class="post-meta">
+      <span class="post-type proost">Proost-moment</span>
+      <span class="post-format">1080 × 1080</span>
+    </div>
+  </div>
+
+  <!-- PR2 -->
+  <div class="post-card">
+    <div class="post-visual v-groen" style="position:relative;">
+      <div style="font-size:0.7rem;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:var(--success);margin-bottom:12px;">🍻 Proost-moment</div>
+      <div class="quote-text" style="font-size:1.15rem;color:white;">"Na één Brouwavond had ik €340 per maand gevonden die ik niet eens miste."</div>
+      <div class="quote-author" style="color:var(--koper-licht);">— Sandra, 34, Barneveld</div>
+      <div class="post-brand" style="color:var(--koper-licht);">@degeldbrouwerij</div>
+    </div>
+    <div class="post-meta">
+      <span class="post-type proost">Proost-moment</span>
+      <span class="post-format">1080 × 1080</span>
+    </div>
+  </div>
+
+</div>
+
+<!-- ================================ -->
+<!-- SCHUIMKRAAG POSTS -->
+<!-- ================================ -->
+<div class="grid-section">
+  <h2>De Schuimkraag</h2>
+  <p>Luchtig, herkenbaar, deelbaar. De "leuke maar niet-essentiële" uitgaven die we allemaal herkennen.</p>
+</div>
+<div class="post-grid">
+
+  <!-- S1 -->
+  <div class="post-card">
+    <div class="post-visual v-wit">
+      <div style="font-size:0.7rem;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:var(--neutraal-50);margin-bottom:12px;">🍺 De Schuimkraag</div>
+      <h3 style="font-size:1.35rem;color:var(--brouwerij-groen);">Dat ene abonnement waar je vorige maand 0 keer gebruik van hebt gemaakt.</h3>
+      <p class="post-sub" style="color:var(--neutraal-50);opacity:1;margin-top:20px;">Je weet welke ik bedoel.</p>
+      <div class="post-divider" style="background:var(--neutraal-20);"></div>
+      <p style="font-size:0.78rem;color:var(--koper);font-weight:600;">€12/mnd × 12 maanden = €144/jaar<br>Over 10 jaar belegd = €2.000+</p>
+      <div class="post-brand post-brand-koper">@degeldbrouwerij</div>
+    </div>
+    <div class="post-meta">
+      <span class="post-type schuimkraag">Schuimkraag</span>
+      <span class="post-format">1080 × 1080</span>
+    </div>
+  </div>
+
+  <!-- S2 -->
+  <div class="post-card">
+    <div class="post-visual v-creme" style="justify-content:center;align-items:center;text-align:center;">
+      <div style="font-size:0.7rem;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:var(--neutraal-50);margin-bottom:16px;">🍺 De Schuimkraag</div>
+      <h3 style="font-size:1.4rem;">€5 per dag aan<br>"kleine aankopen"</h3>
+      <div style="margin:20px 0;display:flex;flex-direction:column;gap:6px;text-align:center;">
+        <div style="font-size:0.82rem;color:var(--neutraal-50);">Per week: <strong style="color:var(--houtbruin);">€35</strong></div>
+        <div style="font-size:0.82rem;color:var(--neutraal-50);">Per maand: <strong style="color:var(--houtbruin);">€150</strong></div>
+        <div style="font-size:0.82rem;color:var(--neutraal-50);">Per jaar: <strong style="color:var(--koper);">€1.825</strong></div>
+        <div style="font-size:0.88rem;color:var(--brouwerij-groen);font-weight:700;margin-top:4px;">Over 30 jaar belegd: €54.750</div>
+      </div>
+      <p class="post-sub" style="opacity:1;color:var(--neutraal-50);font-size:0.8rem;">De Latte Factor is echt.</p>
+      <div class="post-brand post-brand-koper">@degeldbrouwerij</div>
+    </div>
+    <div class="post-meta">
+      <span class="post-type schuimkraag">Schuimkraag</span>
+      <span class="post-format">1080 × 1080</span>
+    </div>
+  </div>
+
+</div>
+
+<!-- ================================ -->
+<!-- KLEINE BROUWER POSTS -->
+<!-- ================================ -->
+<div class="grid-section">
+  <h2>De Kleine Brouwer</h2>
+  <p>Kinderen & geld. Financiële opvoeding. Super deelbaar — ouders taggen andere ouders.</p>
+</div>
+<div class="post-grid">
+
+  <!-- K1 -->
+  <div class="post-card">
+    <div class="post-visual v-gradient-warm">
+      <div style="font-size:0.7rem;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:var(--koper);margin-bottom:12px;">👶 De Kleine Brouwer</div>
+      <h3 style="font-size:1.4rem;">Op = op.</h3>
+      <p class="post-sub" style="opacity:1;color:var(--neutraal-50);font-size:0.9rem;">De drie belangrijkste woorden in de financiële opvoeding van je kind.<br><br>Zakgeld op? Niet bijvullen. Ook niet als ze huilen.<br><br><em>Juist</em> niet als ze huilen.</p>
+      <div class="post-brand post-brand-koper">@degeldbrouwerij</div>
+    </div>
+    <div class="post-meta">
+      <span class="post-type kleine-brouwer">Kleine Brouwer</span>
+      <span class="post-format">1080 × 1080</span>
+    </div>
+  </div>
+
+  <!-- K2 -->
+  <div class="post-card">
+    <div class="post-visual v-creme" style="justify-content:center;text-align:center;align-items:center;">
+      <div style="font-size:0.7rem;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:var(--koper);margin-bottom:16px;">👶 De Kleine Brouwer</div>
+      <div class="stat-number" style="font-size:2.5rem;color:var(--brouwerij-groen);">84%</div>
+      <div class="stat-label" style="color:var(--neutraal-50);max-width:240px;">van de volwassenen die als kind over geld leerden, spaart vaker.</div>
+      <div class="post-divider" style="background:var(--koper);margin:20px auto;"></div>
+      <p style="font-family:var(--font-display);font-style:italic;font-size:0.95rem;color:var(--brouwerij-groen);max-width:250px;">Het beste cadeau dat je je kind kunt geven is niet geld. Het is leren omgaan met geld.</p>
+      <div class="post-brand post-brand-koper" style="margin-top:20px;">@degeldbrouwerij</div>
+    </div>
+    <div class="post-meta">
+      <span class="post-type kleine-brouwer">Kleine Brouwer</span>
+      <span class="post-format">1080 × 1080</span>
+    </div>
+  </div>
+
+  <!-- K3 -->
+  <div class="post-card">
+    <div class="post-visual v-groen">
+      <div style="font-size:0.7rem;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:var(--koper-licht);margin-bottom:12px;">👶 De Kleine Brouwer</div>
+      <h3 style="font-size:1.35rem;color:white;">Je kind ziet jou elke dag keuzes maken met geld.</h3>
+      <p class="post-sub" style="color:var(--groen-10);opacity:1;font-size:0.88rem;">
+        Elke bestelling.<br>
+        Elke impulsaankoop.<br>
+        Elk "dat kopen we wel even."<br><br>
+        Ze leren niet van wat je zegt.<br>
+        <strong style="color:white;">Ze leren van wat je doet.</strong>
+      </p>
+      <div class="post-brand" style="color:var(--koper-licht);">@degeldbrouwerij</div>
+    </div>
+    <div class="post-meta">
+      <span class="post-type kleine-brouwer">Kleine Brouwer</span>
+      <span class="post-format">1080 × 1080</span>
+    </div>
+  </div>
+
+</div>
+
+<!-- ================================ -->
+<!-- CAROUSEL POSTS -->
+<!-- ================================ -->
+<div class="grid-section">
+  <h2>Carousel / Swipe posts</h2>
+  <p>Meerdere slides. Ideaal voor stap-voor-stap uitleg, lijsten, en Het Brouwproces™. Hoge save-rate.</p>
+</div>
+<div class="post-grid">
+
+  <!-- CAR1 - Slide 1 -->
+  <div class="post-card">
+    <div class="post-visual v-groen" style="justify-content:center;align-items:center;text-align:center;">
+      <div style="font-size:0.7rem;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:var(--koper-licht);margin-bottom:20px;">Het Brouwproces™</div>
+      <h3 style="font-size:1.6rem;color:white;">5 stappen naar<br>financiële rust.</h3>
+      <p class="post-sub" style="color:var(--groen-10);">Swipe →</p>
+      <div class="carousel-dots">
+        <div class="dot active" style="background:var(--koper-licht);"></div>
+        <div class="dot" style="background:var(--koper-licht);"></div>
+        <div class="dot" style="background:var(--koper-licht);"></div>
+        <div class="dot" style="background:var(--koper-licht);"></div>
+        <div class="dot" style="background:var(--koper-licht);"></div>
+        <div class="dot" style="background:var(--koper-licht);"></div>
+      </div>
+    </div>
+    <div class="post-meta">
+      <span class="post-type carousel">Carousel · Slide 1/6</span>
+      <span class="post-format">1080 × 1080</span>
+    </div>
+  </div>
+
+  <!-- CAR1 - Slide 2 -->
+  <div class="post-card">
+    <div class="post-visual v-creme">
+      <div class="step-badge" style="background:var(--brouwerij-groen);color:var(--creme);">1</div>
+      <h3 style="font-size:1.5rem;">De Proeverij</h3>
+      <div class="post-divider" style="background:var(--koper);"></div>
+      <p class="post-sub" style="opacity:1;color:var(--neutraal-50);font-size:0.88rem;">Proef waar je staat. Eerlijk, zonder oordeel.<br><br>Waar gaat je geld naartoe? Wat houd je over? Wat is de toekomst als je niks verandert?</p>
+      <p style="font-size:0.78rem;font-weight:600;color:var(--koper);margin-top:16px;">→ Vul de Brouwketel in</p>
+      <div class="carousel-dots" style="justify-content:flex-start;">
+        <div class="dot" style="background:var(--brouwerij-groen);"></div>
+        <div class="dot active" style="background:var(--brouwerij-groen);"></div>
+        <div class="dot" style="background:var(--brouwerij-groen);"></div>
+        <div class="dot" style="background:var(--brouwerij-groen);"></div>
+        <div class="dot" style="background:var(--brouwerij-groen);"></div>
+        <div class="dot" style="background:var(--brouwerij-groen);"></div>
+      </div>
+    </div>
+    <div class="post-meta">
+      <span class="post-type carousel">Carousel · Slide 2/6</span>
+      <span class="post-format">1080 × 1080</span>
+    </div>
+  </div>
+
+  <!-- CAR1 - Slide 3 -->
+  <div class="post-card">
+    <div class="post-visual v-creme">
+      <div class="step-badge" style="background:var(--brouwerij-groen);color:var(--creme);">2</div>
+      <h3 style="font-size:1.5rem;">Het Recept</h3>
+      <div class="post-divider" style="background:var(--koper);"></div>
+      <p class="post-sub" style="opacity:1;color:var(--neutraal-50);font-size:0.88rem;">Stel je potjessysteem in. Beslis vooraf waar je geld naartoe gaat.<br><br>Drie potjes: Vaste Lasten · Leven · Brouwen</p>
+      <p style="font-size:0.78rem;font-weight:600;color:var(--koper);margin-top:16px;">→ Gebruik de 50/30/20 regel</p>
+      <div class="carousel-dots" style="justify-content:flex-start;">
+        <div class="dot" style="background:var(--brouwerij-groen);"></div>
+        <div class="dot" style="background:var(--brouwerij-groen);"></div>
+        <div class="dot active" style="background:var(--brouwerij-groen);"></div>
+        <div class="dot" style="background:var(--brouwerij-groen);"></div>
+        <div class="dot" style="background:var(--brouwerij-groen);"></div>
+        <div class="dot" style="background:var(--brouwerij-groen);"></div>
+      </div>
+    </div>
+    <div class="post-meta">
+      <span class="post-type carousel">Carousel · Slide 3/6</span>
+      <span class="post-format">1080 × 1080</span>
+    </div>
+  </div>
+
+  <!-- CAR1 - Slide 4 -->
+  <div class="post-card">
+    <div class="post-visual v-creme">
+      <div class="step-badge" style="background:var(--brouwerij-groen);color:var(--creme);">3</div>
+      <h3 style="font-size:1.5rem;">De Automatische Brouwerij</h3>
+      <div class="post-divider" style="background:var(--koper);"></div>
+      <p class="post-sub" style="opacity:1;color:var(--neutraal-50);font-size:0.88rem;">Stel het in en vergeet het. Automatische overschrijvingen op de dag na salarisdag.<br><br>Wat op je leefgeld staat mag je uitgeven. Zonder schuldgevoel.</p>
+      <p style="font-size:0.78rem;font-weight:600;color:var(--koper);margin-top:16px;">→ 15 minuten instellen, werkt een leven lang</p>
+      <div class="carousel-dots" style="justify-content:flex-start;">
+        <div class="dot" style="background:var(--brouwerij-groen);"></div>
+        <div class="dot" style="background:var(--brouwerij-groen);"></div>
+        <div class="dot" style="background:var(--brouwerij-groen);"></div>
+        <div class="dot active" style="background:var(--brouwerij-groen);"></div>
+        <div class="dot" style="background:var(--brouwerij-groen);"></div>
+        <div class="dot" style="background:var(--brouwerij-groen);"></div>
+      </div>
+    </div>
+    <div class="post-meta">
+      <span class="post-type carousel">Carousel · Slide 4/6</span>
+      <span class="post-format">1080 × 1080</span>
+    </div>
+  </div>
+
+  <!-- CAR1 - Slide 5 -->
+  <div class="post-card">
+    <div class="post-visual v-creme">
+      <div class="step-badge" style="background:var(--brouwerij-groen);color:var(--creme);">4</div>
+      <h3 style="font-size:1.5rem;">De Rijping</h3>
+      <div class="post-divider" style="background:var(--koper);"></div>
+      <p class="post-sub" style="opacity:1;color:var(--neutraal-50);font-size:0.88rem;">Laat de tijd het werk doen. Compound interest is magie.<br><br>€150/mnd × 30 jaar = €150.000+<br><br>Je hoeft niet elke dag te kijken. Gewoon laten rijpen.</p>
+      <div class="carousel-dots" style="justify-content:flex-start;">
+        <div class="dot" style="background:var(--brouwerij-groen);"></div>
+        <div class="dot" style="background:var(--brouwerij-groen);"></div>
+        <div class="dot" style="background:var(--brouwerij-groen);"></div>
+        <div class="dot" style="background:var(--brouwerij-groen);"></div>
+        <div class="dot active" style="background:var(--brouwerij-groen);"></div>
+        <div class="dot" style="background:var(--brouwerij-groen);"></div>
+      </div>
+    </div>
+    <div class="post-meta">
+      <span class="post-type carousel">Carousel · Slide 5/6</span>
+      <span class="post-format">1080 × 1080</span>
+    </div>
+  </div>
+
+  <!-- CAR1 - Slide 6 CTA -->
+  <div class="post-card">
+    <div class="post-visual v-groen" style="justify-content:center;align-items:center;text-align:center;">
+      <h3 style="font-size:1.4rem;color:white;">Klaar om<br>te brouwen?</h3>
+      <p class="post-sub" style="color:var(--groen-10);">Start met stap 1. Vul de Brouwketel in. Gratis.</p>
+      <div style="margin-top:24px;padding:10px 24px;background:var(--koper);border-radius:8px;font-weight:600;font-size:0.85rem;color:white;">Link in bio →</div>
+      <div class="carousel-dots" style="margin-top:24px;">
+        <div class="dot" style="background:var(--koper-licht);"></div>
+        <div class="dot" style="background:var(--koper-licht);"></div>
+        <div class="dot" style="background:var(--koper-licht);"></div>
+        <div class="dot" style="background:var(--koper-licht);"></div>
+        <div class="dot" style="background:var(--koper-licht);"></div>
+        <div class="dot active" style="background:var(--koper-licht);"></div>
+      </div>
+    </div>
+    <div class="post-meta">
+      <span class="post-type carousel">Carousel · Slide 6/6</span>
+      <span class="post-format">1080 × 1080</span>
+    </div>
+  </div>
+
+</div>
+
+<!-- ================================ -->
+<!-- STORY TEMPLATES -->
+<!-- ================================ -->
+<div class="grid-section">
+  <h2>Story / Reel covers</h2>
+  <p>Verticaal formaat (9:16). Voor Instagram Stories, Reels thumbnails en TikTok.</p>
+</div>
+<div class="post-grid" style="grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));">
+
+  <!-- ST1 -->
+  <div class="post-card">
+    <div class="post-visual v-groen ratio-story" style="justify-content:center;align-items:center;text-align:center;">
+      <div style="font-size:0.65rem;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:var(--koper-licht);">Wist je dat</div>
+      <h3 style="font-size:1.3rem;color:white;margin-top:12px;">1 op de 5 Nederlanders heeft minder dan €1.000 spaargeld</h3>
+      <div class="post-divider" style="background:var(--koper);margin:20px auto;"></div>
+      <p style="font-size:0.72rem;color:var(--groen-10);">Swipe up voor de Brouwketel</p>
+      <div class="post-brand" style="color:var(--koper-licht);margin-top:32px;">@degeldbrouwerij</div>
+    </div>
+    <div class="post-meta">
+      <span class="post-type wake-up">Wake-up</span>
+      <span class="post-format">1080 × 1920</span>
+    </div>
+  </div>
+
+  <!-- ST2 -->
+  <div class="post-card">
+    <div class="post-visual v-creme ratio-story" style="justify-content:center;align-items:center;text-align:center;">
+      <div style="font-size:0.65rem;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:var(--koper);">Het Brouwrecept</div>
+      <h3 style="font-size:1.2rem;margin-top:12px;">Automatiseer je geld in<br>15 minuten</h3>
+      <div style="margin:20px 0;font-size:3rem;">⚡</div>
+      <p style="font-size:0.75rem;color:var(--neutraal-50);">Nieuwe video — link in bio</p>
+      <div class="post-brand post-brand-koper" style="margin-top:32px;">@degeldbrouwerij</div>
+    </div>
+    <div class="post-meta">
+      <span class="post-type educatief">Educatief</span>
+      <span class="post-format">1080 × 1920</span>
+    </div>
+  </div>
+
+  <!-- ST3 -->
+  <div class="post-card">
+    <div class="post-visual v-koper ratio-story" style="justify-content:center;align-items:center;text-align:center;">
+      <div style="font-size:2.5rem;margin-bottom:16px;">🍻</div>
+      <h3 style="font-size:1.3rem;">Brouwavond<br>vanavond!</h3>
+      <p class="post-sub" style="opacity:0.9;">20:00 · Online · €29<br>Nog 3 plekken</p>
+      <div style="margin-top:24px;padding:10px 20px;background:white;border-radius:8px;font-weight:600;font-size:0.78rem;color:var(--koper-donker);">Aanmelden →</div>
+    </div>
+    <div class="post-meta">
+      <span class="post-type cta">CTA</span>
+      <span class="post-format">1080 × 1920</span>
+    </div>
+  </div>
+
+  <!-- ST4 -->
+  <div class="post-card">
+    <div class="post-visual ratio-story" style="justify-content:center;align-items:center;text-align:center;background:linear-gradient(180deg, var(--brouwerij-groen) 0%, #0F1F18 100%);color:white;">
+      <div style="font-size:0.65rem;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:var(--koper-licht);">Poll</div>
+      <h3 style="font-size:1.2rem;margin-top:12px;color:white;">Hoeveel heb jij in je noodfonds?</h3>
+      <div style="display:flex;flex-direction:column;gap:8px;margin-top:20px;width:100%;">
+        <div style="background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.15);border-radius:8px;padding:10px;font-size:0.78rem;">Minder dan €500</div>
+        <div style="background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.15);border-radius:8px;padding:10px;font-size:0.78rem;">€500 - €2.000</div>
+        <div style="background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.15);border-radius:8px;padding:10px;font-size:0.78rem;">€2.000 - €5.000</div>
+        <div style="background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.15);border-radius:8px;padding:10px;font-size:0.78rem;">Meer dan €5.000</div>
+      </div>
+    </div>
+    <div class="post-meta">
+      <span class="post-type educatief">Engagement</span>
+      <span class="post-format">1080 × 1920</span>
+    </div>
+  </div>
+
+</div>
+
+<!-- FOOTER -->
+<div style="text-align:center;padding:60px 32px 40px;">
+  <p style="font-family:var(--font-display);font-size:1.2rem;color:var(--brouwerij-groen);font-weight:400;font-style:italic;">Proost op je content.</p>
+  <p style="font-size:0.7rem;color:var(--neutraal-40);margin-top:16px;">© 2026 De Geldbrouwerij · Social Media Bibliotheek v1.0</p>
+</div>
+
+</body>
+</html>

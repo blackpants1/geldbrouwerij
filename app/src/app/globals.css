@@ -1,0 +1,116 @@
+@import "tailwindcss";
+
+/* ─── De Geldbrouwerij — brand tokens ─── */
+:root {
+  --bg-groen: #1b3a2d;     /* Brouwerij Groen — primair */
+  --bg-groen-dark: #132a20;
+  --koper: #c78c4e;        /* Koper — accent, knoppen */
+  --koper-dark: #a87139;
+  --creme: #f5f0e8;        /* Crème — lichte bg */
+  --schuim: #fefcf7;       /* Schuimwit — body bg */
+  --hout: #3d2b1f;         /* Houtbruin — tekst */
+  --hout-soft: #5a4738;
+  --hop: #e8b84b;          /* Hopgoud — succes */
+  --rood: #c0392b;         /* Waarschuwing */
+  --groen-ok: #27ae60;     /* Positief */
+
+  --radius-sm: 0.5rem;
+  --radius-md: 0.875rem;
+  --radius-lg: 1.25rem;
+  --radius-xl: 1.75rem;
+
+  --shadow-soft: 0 1px 2px rgb(27 58 45 / 0.04), 0 8px 24px -12px rgb(27 58 45 / 0.12);
+  --shadow-lift: 0 2px 4px rgb(27 58 45 / 0.06), 0 18px 40px -16px rgb(27 58 45 / 0.18);
+}
+
+@theme inline {
+  /* colors */
+  --color-bg-groen: var(--bg-groen);
+  --color-bg-groen-dark: var(--bg-groen-dark);
+  --color-koper: var(--koper);
+  --color-koper-dark: var(--koper-dark);
+  --color-creme: var(--creme);
+  --color-schuim: var(--schuim);
+  --color-hout: var(--hout);
+  --color-hout-soft: var(--hout-soft);
+  --color-hop: var(--hop);
+  --color-rood: var(--rood);
+  --color-groen-ok: var(--groen-ok);
+
+  --color-background: var(--schuim);
+  --color-foreground: var(--hout);
+
+  /* fonts */
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-display: var(--font-fraunces), ui-serif, Georgia, "Times New Roman", serif;
+
+  /* radii */
+  --radius-sm: 0.5rem;
+  --radius-md: 0.875rem;
+  --radius-lg: 1.25rem;
+  --radius-xl: 1.75rem;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+}
+
+html,
+body {
+  background: var(--schuim);
+  color: var(--hout);
+}
+
+body {
+  font-family: var(--font-sans);
+  font-feature-settings: "ss01", "cv11";
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+h1, h2, h3, h4 {
+  font-family: var(--font-display);
+  font-optical-sizing: auto;
+  letter-spacing: -0.01em;
+  color: var(--bg-groen);
+}
+
+/* A reusable noise/grain overlay for the hero */
+.grain::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.06;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%25' height='100%25' filter='url(%23n)' opacity='0.7'/></svg>");
+}
+
+/* Underline flourish for Koper links */
+.link-koper {
+  background-image: linear-gradient(currentColor, currentColor);
+  background-size: 100% 1px;
+  background-repeat: no-repeat;
+  background-position: 0 100%;
+  transition: background-size 240ms ease;
+}
+.link-koper:hover { background-size: 0 1px; }
+
+/* Focus ring for accessibility */
+:where(a, button, input, textarea, select, [role="button"]):focus-visible {
+  outline: 2px solid var(--koper);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* Better scrollbar color to match the brand (mobile Safari ignores, desktop subtle) */
+* { scrollbar-color: var(--koper) transparent; }
+
+/* Touch-friendly default tap target */
+@media (hover: none) {
+  button, a, [role="button"] { min-height: 44px; }
+}
+
+/* Prevent horizontal scroll on small screens */
+html, body { overflow-x: hidden; }
