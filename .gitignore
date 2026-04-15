@@ -64,3 +64,4 @@ coverage/
 /resend-*.png
 /signup-*.png
 /image*.png
+app/.vercel
