@@ -5,6 +5,7 @@ import { nlNL } from "@clerk/localizations";
 import "./globals.css";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
+import { ConvexClientProvider } from "@/components/providers/ConvexClientProvider";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -106,27 +107,29 @@ export default function RootLayout({
 }: Readonly<{ children: React.ReactNode }>) {
   return (
     <ClerkProvider localization={nlNL} appearance={clerkAppearance}>
-      <html
-        lang="nl"
-        className={`${inter.variable} ${fraunces.variable} h-full antialiased`}
-      >
-        <body
-          className="min-h-full flex flex-col bg-schuim text-hout"
-          suppressHydrationWarning
+      <ConvexClientProvider>
+        <html
+          lang="nl"
+          className={`${inter.variable} ${fraunces.variable} h-full antialiased`}
         >
-          <a
-            href="#main"
-            className="sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 focus:z-50 focus:rounded-md focus:bg-bg-groen focus:px-3 focus:py-2 focus:text-schuim"
+          <body
+            className="min-h-full flex flex-col bg-schuim text-hout"
+            suppressHydrationWarning
           >
-            Naar hoofdinhoud
-          </a>
-          <Header />
-          <main id="main" className="flex-1">
-            {children}
-          </main>
-          <Footer />
-        </body>
-      </html>
+            <a
+              href="#main"
+              className="sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 focus:z-50 focus:rounded-md focus:bg-bg-groen focus:px-3 focus:py-2 focus:text-schuim"
+            >
+              Naar hoofdinhoud
+            </a>
+            <Header />
+            <main id="main" className="flex-1">
+              {children}
+            </main>
+            <Footer />
+          </body>
+        </html>
+      </ConvexClientProvider>
     </ClerkProvider>
   );
 }

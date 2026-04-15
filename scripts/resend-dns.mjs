@@ -8,12 +8,15 @@
  *     node scripts/resend-dns.mjs
  */
 
-const HT = process.env.HOSTINGER_API_TOKEN ||
-  "h8QLXiuxqTAbor1ALuoVI6fh7zA3zzC5gHcYdtpO63b7baa4";
-const RK = process.env.RESEND_FULL_KEY ||
-  "re_btGuSLPF_9nMam9ouhcJhw7yNVHioqCDb";
-const DID = process.env.RESEND_DOMAIN_ID ||
-  "850c257c-daa7-4426-a920-f4ddbfea5a1a";
+const HT = process.env.HOSTINGER_API_TOKEN;
+const RK = process.env.RESEND_FULL_KEY;
+const DID = process.env.RESEND_DOMAIN_ID;
+if (!HT || !RK || !DID) {
+  console.error(
+    "Vereist: HOSTINGER_API_TOKEN, RESEND_FULL_KEY, RESEND_DOMAIN_ID env vars.",
+  );
+  process.exit(1);
+}
 
 const DOMAIN = "geldbrouwerij.nl";
 

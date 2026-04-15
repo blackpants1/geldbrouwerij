@@ -23,12 +23,6 @@ const root = path.resolve(__dirname, "..");
 
 async function getToken() {
   if (process.env.HOSTINGER_API_TOKEN) return process.env.HOSTINGER_API_TOKEN;
-  try {
-    const raw = await fs.readFile(path.join(root, "hostinger-claude-code"), "utf8");
-    const obj = JSON.parse(raw);
-    const token = obj?.servers?.["hostinger-mcp"]?.env?.API_TOKEN;
-    if (token) return token;
-  } catch {}
   throw new Error("Set HOSTINGER_API_TOKEN env var.");
 }
 
