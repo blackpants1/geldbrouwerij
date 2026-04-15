@@ -73,7 +73,7 @@ export default async function PostDetailPage({ params }: Props) {
         <div className="mt-6 flex items-center gap-3">
           <LikeButton
             postId={post._id}
-            initialLiked={post.likes.includes(session.uid)}
+            initialLiked={post.likes.some((id) => id === session.uid)}
             initialCount={post.likes.length}
           />
         </div>

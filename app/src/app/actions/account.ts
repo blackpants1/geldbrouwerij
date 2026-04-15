@@ -20,7 +20,6 @@ export async function updateProfile({
   await users.update(session.uid, {
     naam: naam.trim(),
     bio: bio?.trim() || undefined,
-    avatarInitial: naam.trim()[0].toUpperCase(),
   });
 
   revalidatePath("/platform");

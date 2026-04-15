@@ -34,8 +34,8 @@ export async function readSession(): Promise<Session | null> {
     cu.username ||
     email.split("@")[0];
 
-  // Upsert lokaal — idempotent
-  const user = await users.upsertFromEmail({ email, naam });
+  // Upsert via Convex — idempotent op clerkId
+  const user = await users.upsertFromClerk({ clerkId: cu.id, email, naam });
 
   return {
     uid: user._id,

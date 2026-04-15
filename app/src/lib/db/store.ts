@@ -1,281 +1,255 @@
 /**
- * Lokale file-backed data layer die de Convex-API qua shape volgt.
- * Zodra de echte Convex-integratie aan gaat, wisselen we deze hele
- * file uit voor `convex/_generated/api.ts`-aanroepen en blijven de
- * consumers (platform pages, server actions) ongewijzigd.
+ * Data-laag — praat met Convex. Alle platform-features lopen hierdoorheen.
+ *
+ * Convex levert:
+ *  - Real-time queries (in Fase 2.1 via client-side subscriptions)
+ *  - Type-safe mutations
+ *  - Automatic caching
+ *
+ * Voor nu: server-side HTTP client (vanuit server actions / RSC).
+ * Client-side real-time voor Tapkamer komt in Fase 2.1.
  */
 
-import fs from "node:fs/promises";
-import path from "node:path";
+import { ConvexHttpClient } from "convex/browser";
+import { api } from "../../../convex/_generated/api";
+import type { Id } from "../../../convex/_generated/dataModel";
 
-const DATA_DIR = () => path.join(process.cwd(), ".data");
-
-async function readJson<T>(file: string, fallback: T): Promise<T> {
-  try {
-    const raw = await fs.readFile(path.join(DATA_DIR(), file), "utf8");
-    return JSON.parse(raw) as T;
-  } catch {
-    return fallback;
-  }
-}
-
-async function writeJson<T>(file: string, data: T) {
-  await fs.mkdir(DATA_DIR(), { recursive: true });
-  await fs.writeFile(
-    path.join(DATA_DIR(), file),
-    JSON.stringify(data, null, 2),
-    "utf8",
+const CONVEX_URL = process.env.NEXT_PUBLIC_CONVEX_URL;
+if (!CONVEX_URL) {
+  throw new Error(
+    "NEXT_PUBLIC_CONVEX_URL ontbreekt. Run `npx convex dev` in /app.",
   );
 }
 
-function id(prefix: string) {
-  return `${prefix}_${Date.now().toString(36)}${Math.random().toString(36).slice(2, 9)}`;
-}
+const client = new ConvexHttpClient(CONVEX_URL);
 
-// ────────────────────────────── USERS ──────────────────────────────
+// ────────────────────────────── types ──────────────────────────────
+
 export interface User {
-  _id: string;
+  _id: Id<"users">;
+  clerkId: string;
   email: string;
   naam: string;
+  bio?: string;
+  avatarInitial: string;
+  subscriptionStatus?: "trial" | "active" | "canceled" | "none";
   createdAt: number;
   lastLoginAt?: number;
-  subscriptionStatus?: "trial" | "active" | "canceled" | "none";
-  subscriptionPlan?: "monthly" | "quarterly" | "yearly";
-  trialEndsAt?: number;
-  bio?: string;
-  avatarInitial?: string;
 }
 
-export const users = {
-  async list() {
-    return readJson<User[]>("users.json", []);
-  },
-  async byEmail(email: string) {
-    const all = await this.list();
-    return all.find((u) => u.email.toLowerCase() === email.toLowerCase()) ?? null;
-  },
-  async byId(_id: string) {
-    const all = await this.list();
-    return all.find((u) => u._id === _id) ?? null;
-  },
-  async upsertFromEmail({
-    email,
-    naam,
-  }: {
-    email: string;
-    naam?: string;
-  }): Promise<User> {
-    const all = await this.list();
-    const existing = all.find(
-      (u) => u.email.toLowerCase() === email.toLowerCase(),
-    );
-    if (existing) {
-      existing.lastLoginAt = Date.now();
-      if (naam && !existing.naam) existing.naam = naam;
-      await writeJson("users.json", all);
-      return existing;
-    }
-    const nu: User = {
-      _id: id("usr"),
-      email,
-      naam: naam ?? email.split("@")[0],
-      createdAt: Date.now(),
-      lastLoginAt: Date.now(),
-      subscriptionStatus: "none",
-      avatarInitial: (naam ?? email).slice(0, 1).toUpperCase(),
-    };
-    all.push(nu);
-    await writeJson("users.json", all);
-    return nu;
-  },
-  async update(_id: string, patch: Partial<User>) {
-    const all = await this.list();
-    const idx = all.findIndex((u) => u._id === _id);
-    if (idx < 0) return null;
-    all[idx] = { ...all[idx], ...patch };
-    await writeJson("users.json", all);
-    return all[idx];
-  },
-  async delete(_id: string) {
-    const all = await this.list();
-    const next = all.filter((u) => u._id !== _id);
-    await writeJson("users.json", next);
-  },
-};
-
-// ────────────────────── BROUWKETEL RESULTS ─────────────────────────
 export interface BrouwketelRecord {
-  _id: string;
-  userId?: string;
+  _id: Id<"brouwketelRecords">;
+  userId?: Id<"users">;
   email: string;
   naam?: string;
   score: number;
   kleur: "rood" | "amber" | "groen";
-  assen: Record<string, number>;
+  assen: {
+    spaarquote: number;
+    vasteLastenRatio: number;
+    bufferMaanden: number;
+    schuldenRatio: number;
+    automatisering: number;
+  };
   input: Record<string, unknown>;
   acties: string[];
   projectie30: number;
   createdAt: number;
 }
 
-export const brouwketelRecords = {
-  async listForUser(userId: string) {
-    const all = await readJson<BrouwketelRecord[]>(
-      "brouwketel-records.json",
-      [],
-    );
-    return all
-      .filter((r) => r.userId === userId)
-      .sort((a, b) => b.createdAt - a.createdAt);
-  },
-  async listForEmail(email: string) {
-    const all = await readJson<BrouwketelRecord[]>(
-      "brouwketel-records.json",
-      [],
-    );
-    return all
-      .filter((r) => r.email.toLowerCase() === email.toLowerCase())
-      .sort((a, b) => b.createdAt - a.createdAt);
-  },
-  async create(record: Omit<BrouwketelRecord, "_id" | "createdAt">) {
-    const all = await readJson<BrouwketelRecord[]>(
-      "brouwketel-records.json",
-      [],
-    );
-    const nu: BrouwketelRecord = {
-      ...record,
-      _id: id("bkt"),
-      createdAt: Date.now(),
-    };
-    all.push(nu);
-    await writeJson("brouwketel-records.json", all);
-    return nu;
-  },
-  async attachToUser(email: string, userId: string) {
-    const all = await readJson<BrouwketelRecord[]>(
-      "brouwketel-records.json",
-      [],
-    );
-    let changed = false;
-    for (const r of all) {
-      if (
-        r.email.toLowerCase() === email.toLowerCase() &&
-        !r.userId
-      ) {
-        r.userId = userId;
-        changed = true;
-      }
-    }
-    if (changed) await writeJson("brouwketel-records.json", all);
-  },
-};
-
-// ───────────────────────── TAPKAMER POSTS ──────────────────────────
 export interface Post {
-  _id: string;
-  userId: string;
+  _id: Id<"posts">;
+  userId: Id<"users">;
   userNaam: string;
   userInitial: string;
   kanaal: string;
   titel: string;
   body: string;
-  likes: string[]; // userIds
+  likes: Id<"users">[];
   createdAt: number;
+  commentCount?: number;
 }
 
 export interface Comment {
-  _id: string;
-  postId: string;
-  userId: string;
+  _id: Id<"comments">;
+  postId: Id<"posts">;
+  userId: Id<"users">;
   userNaam: string;
   userInitial: string;
   body: string;
   createdAt: number;
 }
 
-export const posts = {
-  async list(kanaal?: string) {
-    const all = await readJson<Post[]>("posts.json", []);
-    const filtered = kanaal ? all.filter((p) => p.kanaal === kanaal) : all;
-    return filtered.sort((a, b) => b.createdAt - a.createdAt);
-  },
-  async byId(_id: string) {
-    const all = await readJson<Post[]>("posts.json", []);
-    return all.find((p) => p._id === _id) ?? null;
-  },
-  async create(post: Omit<Post, "_id" | "createdAt" | "likes">) {
-    const all = await readJson<Post[]>("posts.json", []);
-    const nu: Post = {
-      ...post,
-      _id: id("pst"),
-      likes: [],
-      createdAt: Date.now(),
-    };
-    all.push(nu);
-    await writeJson("posts.json", all);
-    return nu;
-  },
-  async toggleLike(postId: string, userId: string) {
-    const all = await readJson<Post[]>("posts.json", []);
-    const p = all.find((x) => x._id === postId);
-    if (!p) return null;
-    const i = p.likes.indexOf(userId);
-    if (i >= 0) p.likes.splice(i, 1);
-    else p.likes.push(userId);
-    await writeJson("posts.json", all);
-    return p;
-  },
-};
-
-export const comments = {
-  async listForPost(postId: string) {
-    const all = await readJson<Comment[]>("comments.json", []);
-    return all
-      .filter((c) => c.postId === postId)
-      .sort((a, b) => a.createdAt - b.createdAt);
-  },
-  async create(comment: Omit<Comment, "_id" | "createdAt">) {
-    const all = await readJson<Comment[]>("comments.json", []);
-    const nu: Comment = {
-      ...comment,
-      _id: id("cmt"),
-      createdAt: Date.now(),
-    };
-    all.push(nu);
-    await writeJson("comments.json", all);
-    return nu;
-  },
-};
-
-// ────────────────────── CURSUS PROGRESS ────────────────────────────
 export interface CursusProgress {
-  userId: string;
+  _id: Id<"cursusProgress">;
+  userId: Id<"users">;
   moduleId: string;
   completedAt: number;
 }
 
+// ────────────────────────────── users ──────────────────────────────
+
+export const users = {
+  async byId(id: string): Promise<User | null> {
+    return client.query(api.users.byId, { id: id as Id<"users"> });
+  },
+  async byClerkId(clerkId: string): Promise<User | null> {
+    return client.query(api.users.byClerkId, { clerkId });
+  },
+  async upsertFromClerk(params: {
+    clerkId: string;
+    email: string;
+    naam: string;
+  }): Promise<User> {
+    const id = await client.mutation(api.users.upsertFromClerk, params);
+    const user = await client.query(api.users.byId, { id });
+    if (!user) throw new Error("User upsert failed");
+    return user;
+  },
+  // Backwards compat — vroeger ging de local flow via email.
+  async upsertFromEmail(params: {
+    email: string;
+    naam?: string;
+  }): Promise<User> {
+    // Deze pad is verouderd: elke auth gaat via Clerk. Map email → tijdelijke
+    // "local-fallback" user. Wordt niet meer aangeroepen zodra readSession
+    // Clerk gebruikt.
+    throw new Error(
+      "users.upsertFromEmail deprecated — gebruik upsertFromClerk.",
+    );
+  },
+  async update(
+    id: string,
+    patch: { naam?: string; bio?: string },
+  ): Promise<void> {
+    await client.mutation(api.users.update, {
+      id: id as Id<"users">,
+      naam: patch.naam,
+      bio: patch.bio,
+    });
+  },
+  async delete(id: string): Promise<void> {
+    await client.mutation(api.users.remove, { id: id as Id<"users"> });
+  },
+};
+
+// ──────────────────────── brouwketel records ───────────────────────
+
+export const brouwketelRecords = {
+  async listForUser(userId: string): Promise<BrouwketelRecord[]> {
+    return client.query(api.brouwketel.listForUser, {
+      userId: userId as Id<"users">,
+    });
+  },
+  async create(params: {
+    userId?: string;
+    email: string;
+    naam?: string;
+    score: number;
+    kleur: "rood" | "amber" | "groen";
+    assen: BrouwketelRecord["assen"];
+    input: Record<string, unknown>;
+    acties: string[];
+    projectie30: number;
+  }): Promise<void> {
+    await client.mutation(api.brouwketel.create, {
+      userId: params.userId ? (params.userId as Id<"users">) : undefined,
+      email: params.email,
+      naam: params.naam,
+      score: params.score,
+      kleur: params.kleur,
+      assen: params.assen,
+      input: params.input,
+      acties: params.acties,
+      projectie30: params.projectie30,
+    });
+  },
+  async attachToUser(email: string, userId: string): Promise<void> {
+    await client.mutation(api.brouwketel.attachToUser, {
+      email,
+      userId: userId as Id<"users">,
+    });
+  },
+};
+
+// ───────────────────────────── posts ───────────────────────────────
+
+export const posts = {
+  async list(kanaal?: string): Promise<Post[]> {
+    return client.query(api.posts.list, { kanaal });
+  },
+  async byId(id: string): Promise<Post | null> {
+    return client.query(api.posts.byId, { id: id as Id<"posts"> });
+  },
+  async create(params: {
+    userId: string;
+    userNaam: string;
+    userInitial: string;
+    kanaal: string;
+    titel: string;
+    body: string;
+  }): Promise<{ _id: string }> {
+    const id = await client.mutation(api.posts.create, {
+      userId: params.userId as Id<"users">,
+      userNaam: params.userNaam,
+      userInitial: params.userInitial,
+      kanaal: params.kanaal,
+      titel: params.titel,
+      body: params.body,
+    });
+    return { _id: id };
+  },
+  async toggleLike(postId: string, userId: string): Promise<void> {
+    await client.mutation(api.posts.toggleLike, {
+      postId: postId as Id<"posts">,
+      userId: userId as Id<"users">,
+    });
+  },
+};
+
+// ──────────────────────────── comments ─────────────────────────────
+
+export const comments = {
+  async listForPost(postId: string): Promise<Comment[]> {
+    return client.query(api.comments.listForPost, {
+      postId: postId as Id<"posts">,
+    });
+  },
+  async create(params: {
+    postId: string;
+    userId: string;
+    userNaam: string;
+    userInitial: string;
+    body: string;
+  }): Promise<void> {
+    await client.mutation(api.comments.create, {
+      postId: params.postId as Id<"posts">,
+      userId: params.userId as Id<"users">,
+      userNaam: params.userNaam,
+      userInitial: params.userInitial,
+      body: params.body,
+    });
+  },
+};
+
+// ───────────────────────── cursus progress ─────────────────────────
+
 export const cursusProgress = {
   async listForUser(userId: string): Promise<CursusProgress[]> {
-    const all = await readJson<CursusProgress[]>("cursus-progress.json", []);
-    return all.filter((p) => p.userId === userId);
+    return client.query(api.cursus.listForUser, {
+      userId: userId as Id<"users">,
+    });
   },
-  async markComplete(userId: string, moduleId: string) {
-    const all = await readJson<CursusProgress[]>("cursus-progress.json", []);
-    const exists = all.find(
-      (p) => p.userId === userId && p.moduleId === moduleId,
-    );
-    if (!exists) {
-      all.push({ userId, moduleId, completedAt: Date.now() });
-      await writeJson("cursus-progress.json", all);
-    }
-    return all.filter((p) => p.userId === userId);
+  async markComplete(userId: string, moduleId: string): Promise<void> {
+    await client.mutation(api.cursus.markComplete, {
+      userId: userId as Id<"users">,
+      moduleId,
+    });
   },
-  async markIncomplete(userId: string, moduleId: string) {
-    const all = await readJson<CursusProgress[]>("cursus-progress.json", []);
-    const next = all.filter(
-      (p) => !(p.userId === userId && p.moduleId === moduleId),
-    );
-    await writeJson("cursus-progress.json", next);
-    return next.filter((p) => p.userId === userId);
+  async markIncomplete(userId: string, moduleId: string): Promise<void> {
+    await client.mutation(api.cursus.markIncomplete, {
+      userId: userId as Id<"users">,
+      moduleId,
+    });
   },
 };
