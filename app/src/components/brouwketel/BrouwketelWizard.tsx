@@ -3,7 +3,6 @@
 import { useMemo, useState, useTransition } from "react";
 import { ArrowRight, ArrowLeft, Beer, CheckCircle2 } from "lucide-react";
 import { CurrencyInput } from "./CurrencyInput";
-import { Button } from "@/components/ui/Button";
 import { BrouwketelResultView } from "./BrouwketelResult";
 import { submitBrouwketel } from "@/app/actions/leads";
 import { berekenBrouwketel } from "@/lib/brouwketel/score";
@@ -274,37 +273,47 @@ export function BrouwketelWizard() {
           </StepShell>
         )}
 
-        <div className="mt-8 flex items-center justify-between gap-3 flex-wrap">
+        <div className="mt-8 flex flex-col-reverse sm:flex-row sm:items-center sm:justify-between gap-3">
           <button
             type="button"
             onClick={back}
             disabled={step === 1}
-            className="inline-flex items-center gap-1.5 text-sm text-hout-soft hover:text-bg-groen disabled:opacity-40"
+            className="inline-flex items-center justify-center gap-1.5 text-sm font-medium text-hout-soft hover:text-bg-groen disabled:opacity-40 h-11 px-3 rounded-full w-full sm:w-auto"
           >
             <ArrowLeft className="h-4 w-4" />
             Terug
           </button>
 
-          <Button
+          <button
+            type="button"
             onClick={next}
             disabled={!canContinue || pending}
-            size="lg"
-            className={cn(!canContinue && "opacity-60 cursor-not-allowed")}
+            className={cn(
+              "inline-flex items-center justify-center gap-2 font-medium rounded-full transition-all duration-200 ease-out whitespace-nowrap",
+              "h-12 sm:h-14 px-6 sm:px-8 text-base w-full sm:w-auto",
+              "bg-koper text-schuim shadow-[0_6px_16px_-8px_rgba(199,140,78,0.7)]",
+              "hover:bg-koper-dark active:translate-y-px",
+              "disabled:opacity-50 disabled:pointer-events-none",
+              "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-koper",
+            )}
           >
             {pending ? (
-              "Brouwen…"
+              <>
+                <span className="inline-block h-3 w-3 rounded-full bg-schuim/60 animate-pulse" />
+                Brouwen…
+              </>
             ) : step === TOTAL_STEPS ? (
               <>
-                <CheckCircle2 className="h-4 w-4" />
-                Toon mijn Brouw-score
+                <CheckCircle2 className="h-5 w-5" />
+                <span>Toon mijn Brouw-score</span>
               </>
             ) : (
               <>
-                Volgende
+                <span>Volgende</span>
                 <ArrowRight className="h-4 w-4" />
               </>
             )}
-          </Button>
+          </button>
         </div>
       </div>
 
@@ -317,22 +326,18 @@ export function BrouwketelWizard() {
 }
 
 function StepShell({
-  nr,
   titel,
   intro,
   children,
 }: {
-  nr: number;
+  nr?: number;
   titel: string;
   intro: string;
   children: React.ReactNode;
 }) {
   return (
     <div>
-      <p className="text-xs uppercase tracking-[0.18em] font-medium text-koper-dark">
-        Stap {nr} van {TOTAL_STEPS}
-      </p>
-      <h2 className="mt-2 font-display text-2xl sm:text-3xl text-bg-groen">
+      <h2 className="font-display text-2xl sm:text-3xl text-bg-groen">
         {titel}
       </h2>
       <p className="mt-2 text-hout-soft leading-relaxed">{intro}</p>
@@ -342,17 +347,28 @@ function StepShell({
 }
 
 function ProgressBar({ step, total }: { step: number; total: number }) {
+  const pct = Math.round(((step - 1) / (total - 1)) * 100);
   return (
-    <div className="flex items-center gap-2" aria-label={`Stap ${step} van ${total}`}>
-      {Array.from({ length: total }, (_, i) => i + 1).map((i) => (
-        <div
-          key={i}
-          className={cn(
-            "h-1.5 flex-1 rounded-full transition-colors",
-            i <= step ? "bg-koper" : "bg-hout/10",
-          )}
-        />
-      ))}
+    <div className="flex flex-col gap-2" aria-label={`Stap ${step} van ${total}`}>
+      <div className="flex items-center justify-between text-xs">
+        <span className="uppercase tracking-[0.18em] font-medium text-koper-dark">
+          Stap {step} van {total}
+        </span>
+        <span className="text-hout-soft/80">{pct}% gevuld</span>
+      </div>
+      <div className="flex items-center gap-1.5">
+        {Array.from({ length: total }, (_, i) => i + 1).map((i) => (
+          <div
+            key={i}
+            className={cn(
+              "h-1.5 flex-1 rounded-full transition-all duration-500",
+              i < step && "bg-koper",
+              i === step && "bg-koper ring-2 ring-koper/20",
+              i > step && "bg-hout/10",
+            )}
+          />
+        ))}
+      </div>
     </div>
   );
 }

@@ -1,6 +1,6 @@
 "use client";
 
-import { useId, useState, useEffect } from "react";
+import { useId, useState } from "react";
 import { cn } from "@/lib/cn";
 
 export function CurrencyInput({
@@ -25,21 +25,15 @@ export function CurrencyInput({
   className?: string;
 }) {
   const id = useId();
-  // Lokale string-waarde zodat het veld leeg mag zijn zolang de gebruiker typt.
+  // Controlled-but-local text-state. Initieel leeg als value === 0.
+  // We tonen de parent-waarde (>0) bij een "reset naar echte waarde" via key.
   const [text, setText] = useState<string>(value > 0 ? String(value) : "");
-
-  // Sync als de parent de waarde reset (bv. "nieuw brouwsel").
-  useEffect(() => {
-    if (value === 0 && text === "") return;
-    if (value > 0 && text === "") setText(String(value));
-    if (value === 0 && Number(text) !== 0) setText("");
-  }, [value]); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <div className={cn("flex flex-col gap-1.5", className)}>
       <label htmlFor={id} className="text-sm font-medium text-hout">
         {label}
-        {required && <span className="text-koper">*</span>}
+        {required && <span className="text-koper"> *</span>}
       </label>
       {hint && <p className="text-xs text-hout-soft/80 -mt-0.5">{hint}</p>}
       <div className="relative">
@@ -65,13 +59,8 @@ export function CurrencyInput({
             const n = Number(v);
             onChange(Number.isFinite(n) ? n : 0);
           }}
-          onBlur={() => {
-            // Wanneer leeg → blijft leeg (geen "0" forceren).
-            const n = Number(text);
-            if (text !== "" && Number.isFinite(n)) setText(String(n));
-          }}
           required={required}
-          className="w-full h-12 pl-8 pr-4 rounded-xl bg-schuim border border-hout/10 focus:border-koper outline-none transition-colors text-base"
+          className="w-full h-12 pl-8 pr-4 rounded-xl bg-schuim border border-hout/10 focus:border-koper outline-none transition-colors text-base placeholder:text-hout-soft/40"
         />
       </div>
     </div>
