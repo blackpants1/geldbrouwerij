@@ -17,7 +17,7 @@ const links = {
   Overig: [
     { href: "/privacy", label: "Privacy" },
     { href: "/voorwaarden", label: "Voorwaarden & disclaimer" },
-    { href: "mailto:roy@geldbrouwerij.nl", label: "roy@geldbrouwerij.nl" },
+    { href: "mailto:roy@geldbrouwerij.nl", label: "Mail Roy" },
   ],
 };
 

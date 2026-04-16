@@ -42,20 +42,20 @@ export function HeaderShell({ isAuthed }: { isAuthed: boolean }) {
           : "bg-transparent",
       )}
     >
-      <div className="mx-auto flex max-w-7xl items-center justify-between px-5 sm:px-6 lg:px-8 py-3 sm:py-4">
+      <div className="mx-auto flex max-w-7xl items-center gap-4 px-5 sm:px-6 lg:px-8 py-3 sm:py-4">
         <Logo />
-        <nav className="hidden md:flex items-center gap-7" aria-label="Hoofdnavigatie">
+        <nav className="hidden lg:flex items-center gap-5 xl:gap-7 ml-auto" aria-label="Hoofdnavigatie">
           {nav.map((n) => (
             <Link
               key={n.href}
               href={n.href}
-              className="text-sm font-medium text-hout-soft hover:text-bg-groen transition-colors link-koper"
+              className="text-sm font-medium text-hout-soft hover:text-bg-groen transition-colors link-koper whitespace-nowrap"
             >
               {n.label}
             </Link>
           ))}
         </nav>
-        <div className="hidden md:flex items-center gap-3">
+        <div className="hidden lg:flex items-center gap-3 pl-4 border-l border-hout/10">
           {isAuthed ? (
             <Link
               href="/platform"
@@ -73,14 +73,15 @@ export function HeaderShell({ isAuthed }: { isAuthed: boolean }) {
                 Inloggen
               </Link>
               <Button href="/brouwketel" size="sm" variant="primary">
-                Start de Brouwketel
+                <span className="xl:hidden">Brouwketel</span>
+                <span className="hidden xl:inline">Start de Brouwketel</span>
               </Button>
             </>
           )}
         </div>
 
         <button
-          className="md:hidden inline-flex items-center justify-center h-11 w-11 rounded-full text-bg-groen hover:bg-creme"
+          className="lg:hidden ml-auto inline-flex items-center justify-center h-11 w-11 rounded-full text-bg-groen hover:bg-creme"
           onClick={() => setOpen((v) => !v)}
           aria-label={open ? "Menu sluiten" : "Menu openen"}
           aria-expanded={open}
@@ -93,7 +94,7 @@ export function HeaderShell({ isAuthed }: { isAuthed: boolean }) {
       {open && (
         <div
           id="mobile-nav"
-          className="md:hidden fixed inset-x-0 top-[64px] bottom-0 z-40 bg-schuim border-t border-hout/5 overflow-y-auto"
+          className="lg:hidden fixed inset-x-0 top-[64px] bottom-0 z-40 bg-schuim border-t border-hout/5 overflow-y-auto"
         >
           <nav className="flex flex-col px-5 py-6 gap-1" aria-label="Mobiele navigatie">
             {nav.map((n) => (
