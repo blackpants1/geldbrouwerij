@@ -1,6 +1,6 @@
 "use client";
 
-import { useId } from "react";
+import { useId, useState, useEffect } from "react";
 import { cn } from "@/lib/cn";
 
 export function CurrencyInput({
@@ -25,6 +25,16 @@ export function CurrencyInput({
   className?: string;
 }) {
   const id = useId();
+  // Lokale string-waarde zodat het veld leeg mag zijn zolang de gebruiker typt.
+  const [text, setText] = useState<string>(value > 0 ? String(value) : "");
+
+  // Sync als de parent de waarde reset (bv. "nieuw brouwsel").
+  useEffect(() => {
+    if (value === 0 && text === "") return;
+    if (value > 0 && text === "") setText(String(value));
+    if (value === 0 && Number(text) !== 0) setText("");
+  }, [value]); // eslint-disable-line react-hooks/exhaustive-deps
+
   return (
     <div className={cn("flex flex-col gap-1.5", className)}>
       <label htmlFor={id} className="text-sm font-medium text-hout">
@@ -43,10 +53,22 @@ export function CurrencyInput({
           min={min}
           max={max}
           step={step}
-          value={Number.isFinite(value) ? value : 0}
+          value={text}
+          placeholder="0"
           onChange={(e) => {
-            const n = Number(e.target.value);
+            const v = e.target.value;
+            setText(v);
+            if (v === "") {
+              onChange(0);
+              return;
+            }
+            const n = Number(v);
             onChange(Number.isFinite(n) ? n : 0);
+          }}
+          onBlur={() => {
+            // Wanneer leeg → blijft leeg (geen "0" forceren).
+            const n = Number(text);
+            if (text !== "" && Number.isFinite(n)) setText(String(n));
           }}
           required={required}
           className="w-full h-12 pl-8 pr-4 rounded-xl bg-schuim border border-hout/10 focus:border-koper outline-none transition-colors text-base"
